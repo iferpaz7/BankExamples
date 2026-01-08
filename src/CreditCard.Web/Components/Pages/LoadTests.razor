@@ -1,0 +1,447 @@
+@page "/loadtests"
+@using CreditCard.Web.Models
+@using CreditCard.Web.Services
+@inject LoadTestService LoadTestService
+@inject ILogger<LoadTests> Logger
+@implements IDisposable
+@rendermode InteractiveServer
+
+<PageTitle>Pruebas de Carga - Credit Card API</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="bi bi-speedometer2 me-2"></i>Pruebas de Carga</h2>
+            <p class="text-muted">Ejecuta pruebas de rendimiento para la API de tarjetas de crédito</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Panel de Configuración -->
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-gear me-2"></i>Configuración
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tipo de Prueba</label>
+                        <select class="form-select" @bind="_config.TestType" disabled="@_isRunning">
+                            <option value="smoke">?? Smoke Test (Básico)</option>
+                            <option value="load">?? Load Test (Carga Normal)</option>
+                            <option value="stress">?? Stress Test (Estrés)</option>
+                            <option value="spike">? Spike Test (Picos)</option>
+                            <option value="crud">?? CRUD Flow (Flujo Completo)</option>
+                            <option value="reports">?? Reports Test (Reportes)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Duración (segundos)</label>
+                        <input type="number" class="form-control" @bind="_config.DurationSeconds" 
+                               min="10" max="600" disabled="@_isRunning" />
+                        <small class="text-muted">Mínimo: 10s, Máximo: 600s</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Requests por Segundo</label>
+                        <input type="number" class="form-control" @bind="_config.RequestsPerSecond" 
+                               min="1" max="100" disabled="@_isRunning" />
+                        <small class="text-muted">Mínimo: 1, Máximo: 100</small>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-grid gap-2">
+                        @if (_isRunning)
+                        {
+                            <button class="btn btn-danger" @onclick="CancelTest">
+                                <i class="bi bi-stop-fill me-2"></i>Detener Prueba
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-success" @onclick="StartTest">
+                                <i class="bi bi-play-fill me-2"></i>Iniciar Prueba
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Presets de Pruebas -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <i class="bi bi-lightning me-2"></i>Pruebas Rápidas
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm" @onclick="SetSmokePreset" disabled="@_isRunning">
+                            ?? Smoke (30s, 5 RPS)
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" @onclick="SetLoadPreset" disabled="@_isRunning">
+                            ?? Load (60s, 20 RPS)
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm" @onclick="SetStressPreset" disabled="@_isRunning">
+                            ?? Stress (60s, 50 RPS)
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="SetSpikePreset" disabled="@_isRunning">
+                            ? Spike (60s, 100 RPS)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel de Resultados -->
+        <div class="col-md-8">
+            <!-- Estado Actual -->
+            @if (_isRunning || _status.Progress > 0)
+            {
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header @(_isRunning ? "bg-warning" : "bg-success") text-white">
+                        <i class="bi @(_isRunning ? "bi-hourglass-split" : "bi-check-circle") me-2"></i>
+                        @(_isRunning ? "Prueba en Ejecución" : "Prueba Completada")
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Progreso: @_status.Progress%</label>
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar progress-bar-striped @(_isRunning ? "progress-bar-animated" : "")" 
+                                     role="progressbar" 
+                                     style="width: @(_status.Progress)%">
+                                    @_status.Progress%
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="col-3">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <h4 class="mb-0 text-primary">@_status.TotalRequestsSent</h4>
+                                        <small>Total Requests</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <h4 class="mb-0 text-success">@_status.SuccessfulRequests</h4>
+                                        <small>Exitosos</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <h4 class="mb-0 text-danger">@_status.FailedRequests</h4>
+                                        <small>Fallidos</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <h4 class="mb-0 text-info">@_status.CurrentRps.ToString("F1")</h4>
+                                        <small>RPS Actual</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Último Resultado -->
+            @if (_lastResult != null)
+            {
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header @(_lastResult.Passed ? "bg-success" : "bg-danger") text-white">
+                        <i class="bi @(_lastResult.Passed ? "bi-check-circle" : "bi-x-circle") me-2"></i>
+                        Resultado: @_lastResult.ScenarioName
+                        <span class="badge bg-light text-dark float-end">
+                            @(_lastResult.Passed ? "? PASSED" : "? FAILED")
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Métricas Generales</h6>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Total Requests:</td>
+                                        <td class="fw-bold">@_lastResult.TotalRequests</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Exitosos:</td>
+                                        <td class="fw-bold text-success">@_lastResult.SuccessfulRequests</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fallidos:</td>
+                                        <td class="fw-bold text-danger">@_lastResult.FailedRequests</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tasa de Error:</td>
+                                        <td class="fw-bold @(_lastResult.ErrorRate > 5 ? "text-danger" : "text-success")">
+                                            @_lastResult.ErrorRate.ToString("F2")%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>RPS Promedio:</td>
+                                        <td class="fw-bold">@_lastResult.RequestsPerSecond.ToString("F2")</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Tiempos de Respuesta</h6>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Promedio:</td>
+                                        <td class="fw-bold">@_lastResult.AverageResponseTimeMs.ToString("F2") ms</td>
+                                    </tr>
+                                    <tr>
+                                        <td>P50 (Mediana):</td>
+                                        <td class="fw-bold">@_lastResult.P50ResponseTimeMs.ToString("F2") ms</td>
+                                    </tr>
+                                    <tr>
+                                        <td>P95:</td>
+                                        <td class="fw-bold @(_lastResult.P95ResponseTimeMs > 500 ? "text-warning" : "text-success")">
+                                            @_lastResult.P95ResponseTimeMs.ToString("F2") ms
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>P99:</td>
+                                        <td class="fw-bold @(_lastResult.P99ResponseTimeMs > 1000 ? "text-danger" : "text-success")">
+                                            @_lastResult.P99ResponseTimeMs.ToString("F2") ms
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Duración:</td>
+                                        <td class="fw-bold">@_lastResult.Duration.ToString(@"mm\:ss")</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        @if (_lastResult.EndpointMetrics.Count != 0)
+                        {
+                            <hr />
+                            <h6 class="text-muted">Métricas por Endpoint</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Método</th>
+                                            <th>Endpoint</th>
+                                            <th>Requests</th>
+                                            <th>Éxitos</th>
+                                            <th>Fallos</th>
+                                            <th>Avg (ms)</th>
+                                            <th>Min (ms)</th>
+                                            <th>Max (ms)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var metric in _lastResult.EndpointMetrics)
+                                        {
+                                            <tr>
+                                                <td><span class="badge bg-info">@metric.Method</span></td>
+                                                <td><code>@metric.Endpoint</code></td>
+                                                <td>@metric.TotalRequests</td>
+                                                <td class="text-success">@metric.SuccessCount</td>
+                                                <td class="text-danger">@metric.FailureCount</td>
+                                                <td>@metric.AverageResponseTimeMs.ToString("F2")</td>
+                                                <td>@metric.MinResponseTimeMs.ToString("F2")</td>
+                                                <td>@metric.MaxResponseTimeMs.ToString("F2")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Logs -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-terminal me-2"></i>Logs</span>
+                    <button class="btn btn-sm btn-outline-light" @onclick="ClearLogs">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+                <div class="card-body bg-dark text-light" style="max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 0.85rem;">
+                    @if (_status.Logs.Count == 0)
+                    {
+                        <p class="text-muted mb-0">No hay logs disponibles...</p>
+                    }
+                    else
+                    {
+                        @foreach (var log in _status.Logs)
+                        {
+                            <div class="@GetLogClass(log)">@log</div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historial de Pruebas -->
+    @if (LoadTestService.TestHistory.Count > 1)
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-clock-history me-2"></i>Historial de Pruebas
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha/Hora</th>
+                                        <th>Tipo</th>
+                                        <th>Duración</th>
+                                        <th>Requests</th>
+                                        <th>RPS</th>
+                                        <th>Error %</th>
+                                        <th>P95 (ms)</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var result in LoadTestService.TestHistory.Skip(1).Take(10))
+                                    {
+                                        <tr>
+                                            <td>@result.StartTime.ToString("dd/MM HH:mm")</td>
+                                            <td>@result.ScenarioName</td>
+                                            <td>@result.Duration.ToString(@"mm\:ss")</td>
+                                            <td>@result.TotalRequests</td>
+                                            <td>@result.RequestsPerSecond.ToString("F1")</td>
+                                            <td class="@(result.ErrorRate > 5 ? "text-danger" : "text-success")">
+                                                @result.ErrorRate.ToString("F2")%
+                                            </td>
+                                            <td>@result.P95ResponseTimeMs.ToString("F0")</td>
+                                            <td>
+                                                <span class="badge @(result.Passed ? "bg-success" : "bg-danger")">
+                                                    @(result.Passed ? "PASSED" : "FAILED")
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private LoadTestConfiguration _config = new()
+    {
+        TestType = "smoke",
+        DurationSeconds = 30,
+        RequestsPerSecond = 5
+    };
+
+    private LoadTestStatus _status = new();
+    private LoadTestResultModel? _lastResult;
+    private bool _isRunning;
+
+    protected override void OnInitialized()
+    {
+        LoadTestService.OnStatusChanged += OnStatusChanged;
+        _status = LoadTestService.CurrentStatus;
+    }
+
+    private async Task StartTest()
+    {
+        if (_isRunning) return;
+
+        _isRunning = true;
+        _lastResult = null;
+        StateHasChanged();
+
+        try
+        {
+            _lastResult = await LoadTestService.RunTestAsync(_config);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error al ejecutar prueba de carga");
+        }
+        finally
+        {
+            _isRunning = false;
+            StateHasChanged();
+        }
+    }
+
+    private void CancelTest()
+    {
+        LoadTestService.CancelTest();
+    }
+
+    private void ClearLogs()
+    {
+        LoadTestService.ClearLogs();
+        StateHasChanged();
+    }
+
+    private void SetSmokePreset()
+    {
+        _config.TestType = "smoke";
+        _config.DurationSeconds = 30;
+        _config.RequestsPerSecond = 5;
+    }
+
+    private void SetLoadPreset()
+    {
+        _config.TestType = "load";
+        _config.DurationSeconds = 60;
+        _config.RequestsPerSecond = 20;
+    }
+
+    private void SetStressPreset()
+    {
+        _config.TestType = "stress";
+        _config.DurationSeconds = 60;
+        _config.RequestsPerSecond = 50;
+    }
+
+    private void SetSpikePreset()
+    {
+        _config.TestType = "spike";
+        _config.DurationSeconds = 60;
+        _config.RequestsPerSecond = 100;
+    }
+
+    private void OnStatusChanged()
+    {
+        _status = LoadTestService.CurrentStatus;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private static string GetLogClass(string log)
+    {
+        if (log.Contains("Error") || log.Contains("Fallos"))
+            return "text-danger";
+        if (log.Contains("completada") || log.Contains("Exitosos"))
+            return "text-success";
+        if (log.Contains("Iniciando") || log.Contains("Cancelando"))
+            return "text-warning";
+        return "text-light";
+    }
+
+    public void Dispose()
+    {
+        LoadTestService.OnStatusChanged -= OnStatusChanged;
+    }
+}

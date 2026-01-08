@@ -1,0 +1,149 @@
+@page "/creditcards/edit/{Id:guid}"
+@using CreditCard.Web.Models
+@using CreditCard.Web.Services
+@inject CreditCardApiService ApiService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Editar Tarjeta de Crédito</PageTitle>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            @if (isLoading)
+            {
+                <div class="d-flex justify-content-center my-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else if (card == null)
+            {
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Tarjeta no encontrada
+                    <a href="/creditcards" class="alert-link ms-2">Volver al listado</a>
+                </div>
+            }
+            else
+            {
+                <div class="card shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h4 class="mb-0"><i class="bi bi-pencil me-2"></i>Editar Tarjeta</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-triangle me-2"></i>@errorMessage
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Número de Tarjeta</label>
+                            <p class="form-control-plaintext font-monospace">@card.MaskedCardNumber</p>
+                        </div>
+
+                        <EditForm Model="model" OnValidSubmit="HandleSubmit">
+                            <DataAnnotationsValidator />
+
+                            <div class="mb-3">
+                                <label class="form-label">Nombre del Titular</label>
+                                <InputText @bind-Value="model.CardHolderName" class="form-control" />
+                                <ValidationMessage For="() => model.CardHolderName" class="text-danger" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Límite de Crédito</label>
+                                <InputNumber @bind-Value="model.CreditLimit" class="form-control" />
+                                <ValidationMessage For="() => model.CreditLimit" class="text-danger" />
+                                @if (card.UsedCredit > 0)
+                                {
+                                    <small class="text-muted">
+                                        Deuda actual: @card.UsedCredit.ToString("C")
+                                    </small>
+                                }
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex justify-content-between">
+                                <a href="/creditcards" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary" disabled="@isSubmitting">
+                                    @if (isSubmitting)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-1"></span>
+                                    }
+                                    <i class="bi bi-check-lg me-1"></i>Guardar Cambios
+                                </button>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private CreditCardViewModel? card;
+    private UpdateCreditCardModel model = new();
+    private bool isLoading = true;
+    private bool isSubmitting = false;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCard();
+    }
+
+    private async Task LoadCard()
+    {
+        try
+        {
+            isLoading = true;
+            card = await ApiService.GetByIdAsync(Id);
+            if (card != null)
+            {
+                model = new UpdateCreditCardModel
+                {
+                    CardHolderName = card.CardHolderName,
+                    CreditLimit = card.CreditLimit
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            isSubmitting = true;
+            errorMessage = null;
+
+            await ApiService.UpdateAsync(Id, model);
+            Navigation.NavigateTo("/creditcards");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

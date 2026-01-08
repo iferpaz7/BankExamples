@@ -1,0 +1,531 @@
+{
+	"info": {
+		"_postman_id": "creditcard-api-collection",
+		"name": "Credit Card API - Complete Testing",
+		"description": "Colección completa para probar la API de Tarjetas de Crédito con Clean Architecture + DDD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5282",
+			"type": "string"
+		},
+		{
+			"key": "cardId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. CRUD Operations",
+			"item": [
+				{
+					"name": "Create Visa Card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"cardId\", jsonData.id);",
+									"    pm.environment.set(\"cardId\", jsonData.id);",
+									"    console.log(\"Card ID saved: \" + jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cardNumber\": \"4532015112830366\",\n  \"cardHolderName\": \"Juan Pérez\",\n  \"expirationDate\": \"12/2027\",\n  \"cvv\": \"123\",\n  \"creditLimit\": 10000.00,\n  \"cardType\": \"Visa\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create MasterCard",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cardNumber\": \"5425233430109903\",\n  \"cardHolderName\": \"María García\",\n  \"expirationDate\": \"06/2026\",\n  \"cvv\": \"456\",\n  \"creditLimit\": 15000.00,\n  \"cardType\": \"MasterCard\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Cards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Card By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Card",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cardHolderName\": \"Juan Carlos Pérez Martínez\",\n  \"creditLimit\": 12000.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Card",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Business Operations",
+			"item": [
+				{
+					"name": "Make Charge",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 500.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/charge",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "charge"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make Payment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 300.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/payment",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "payment"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Card",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/deactivate",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "deactivate"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Card",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/activate",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "activate"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Reports (Dapper)",
+			"item": [
+				{
+					"name": "Get All Cards Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reports/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reports", "creditcards"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Card Report By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reports/creditcards/{{cardId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reports", "creditcards", "{{cardId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Cards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reports/creditcards/active",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reports", "creditcards", "active"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get High Usage Cards (70%)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reports/creditcards/high-usage?minPercentage=70",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reports", "creditcards", "high-usage"],
+							"query": [
+								{
+									"key": "minPercentage",
+									"value": "70"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Critical Usage Cards (90%)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reports/creditcards/high-usage?minPercentage=90",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reports", "creditcards", "high-usage"],
+							"query": [
+								{
+									"key": "minPercentage",
+									"value": "90"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Test Scenarios",
+			"item": [
+				{
+					"name": "Scenario 1: Create Test Card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"testCardId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cardNumber\": \"4916338506082832\",\n  \"cardHolderName\": \"Ana López Test\",\n  \"expirationDate\": \"03/2029\",\n  \"cvv\": \"321\",\n  \"creditLimit\": 5000.00,\n  \"cardType\": \"Visa\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scenario 2: Charge 2500",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 2500.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/charge",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "charge"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scenario 3: Charge 1500 (Total 80%)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 1500.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/charge",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "charge"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scenario 4: Check Status After Charges",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reports/creditcards/{{cardId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reports", "creditcards", "{{cardId}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scenario 5: Make Payment 1000",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 1000.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/payment",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "payment"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scenario 6: Check Final Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Error Tests",
+			"item": [
+				{
+					"name": "ERROR: Duplicate Card Number",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cardNumber\": \"4532015112830366\",\n  \"cardHolderName\": \"Duplicate Test\",\n  \"expirationDate\": \"12/2027\",\n  \"cvv\": \"123\",\n  \"creditLimit\": 10000.00,\n  \"cardType\": \"Visa\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ERROR: Charge Exceeds Limit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 999999.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards/{{cardId}}/charge",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards", "{{cardId}}", "charge"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ERROR: Invalid CVV (2 digits)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cardNumber\": \"4916338506082833\",\n  \"cardHolderName\": \"Invalid CVV\",\n  \"expirationDate\": \"12/2027\",\n  \"cvv\": \"12\",\n  \"creditLimit\": 10000.00,\n  \"cardType\": \"Visa\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ERROR: Invalid Card Number",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cardNumber\": \"123456789\",\n  \"cardHolderName\": \"Invalid Card\",\n  \"expirationDate\": \"12/2027\",\n  \"cvv\": \"123\",\n  \"creditLimit\": 10000.00,\n  \"cardType\": \"Visa\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/creditcards",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "creditcards"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

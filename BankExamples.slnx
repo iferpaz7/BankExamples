@@ -1,0 +1,19 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/CreditCard.Api/CreditCard.Api.csproj" />
+    <Project Path="src/CreditCard.Application/CreditCard.Application.csproj" />
+    <Project Path="src/CreditCard.Domain/CreditCard.Domain.csproj" />
+    <Project Path="src/CreditCard.Infrastructure/CreditCard.Infrastructure.csproj" />
+    <Project Path="src/CreditCard.Web/CreditCard.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CreditCard.IntegrationTests/CreditCard.IntegrationTests.csproj" />
+    <Project Path="tests/CreditCard.LoadTests/CreditCard.LoadTests.csproj" />
+    <Project Path="tests/CreditCard.Tests/CreditCard.Tests.csproj" />
+  </Folder>
+</Solution>

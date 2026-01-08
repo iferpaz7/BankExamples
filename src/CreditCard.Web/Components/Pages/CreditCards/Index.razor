@@ -1,0 +1,452 @@
+@page "/creditcards"
+@using CreditCard.Web.Models
+@using CreditCard.Web.Services
+@inject CreditCardApiService ApiService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Tarjetas de Crédito</PageTitle>
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-credit-card me-2"></i>Tarjetas de Crédito</h1>
+        <a href="/creditcards/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Nueva Tarjeta
+        </a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>@errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = null"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>@successMessage
+            <button type="button" class="btn-close" @onclick="() => successMessage = null"></button>
+        </div>
+    }
+
+    @if (isLoading)
+    {
+        <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+    }
+    else if (creditCards.Count == 0)
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>No hay tarjetas registradas. 
+            <a href="/creditcards/create">Crear una nueva tarjeta</a>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var card in creditCards)
+            {
+                <div class="col">
+                    <div class="card h-100 @(card.IsActive ? "" : "border-danger")">
+                        <div class="card-header d-flex justify-content-between align-items-center @GetCardTypeClass(card.CardType)">
+                            <span class="text-white fw-bold">@card.CardType</span>
+                            <span class="badge @(card.IsActive ? "bg-success" : "bg-danger")">
+                                @(card.IsActive ? "Activa" : "Inactiva")
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title font-monospace">@card.MaskedCardNumber</h5>
+                            <p class="card-text text-muted mb-1">@card.CardHolderName</p>
+                            <p class="card-text small text-muted">Vence: @card.ExpirationDate</p>
+                            
+                            <hr />
+                            
+                            <div class="row text-center mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Límite</small>
+                                    <strong class="text-primary">@card.CreditLimit.ToString("C")</strong>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Disponible</small>
+                                    <strong class="@(card.AvailableCredit > 0 ? "text-success" : "text-danger")">
+                                        @card.AvailableCredit.ToString("C")
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar @GetProgressBarClass(card.UsagePercentage)" 
+                                     role="progressbar" 
+                                     style="width: @card.UsagePercentage%"
+                                     aria-valuenow="@card.UsagePercentage" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100">
+                                </div>
+                            </div>
+                            <small class="text-muted">Uso: @card.UsagePercentage.ToString("F1")%</small>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="btn-group w-100" role="group">
+                                <a href="/creditcards/@card.Id" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="/creditcards/edit/@card.Id" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button class="btn btn-outline-success btn-sm" @onclick="() => ShowChargeModal(card)" disabled="@(!card.IsActive)">
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                                <button class="btn btn-outline-info btn-sm" @onclick="() => ShowPaymentModal(card)">
+                                    <i class="bi bi-cash"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" @onclick="() => ShowDeleteConfirmation(card)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination Controls -->
+        <nav aria-label="Navegación de páginas" class="mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <small class="text-muted">
+                        Mostrando @((currentPage - 1) * pageSize + 1) - @Math.Min(currentPage * pageSize, totalCount) de @totalCount tarjetas
+                    </small>
+                </div>
+                <ul class="pagination mb-0">
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(1)" disabled="@(currentPage == 1)">
+                            <i class="bi bi-chevron-double-left"></i>
+                        </button>
+                    </li>
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(currentPage - 1)" disabled="@(currentPage == 1)">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                    </li>
+                    @foreach (var pageNumber in GetPageNumbers())
+                    {
+                        <li class="page-item @(pageNumber == currentPage ? "active" : "")">
+                            <button class="page-link" @onclick="() => GoToPage(pageNumber)">@(pageNumber)</button>
+                        </li>
+                    }
+                    <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(currentPage + 1)" disabled="@(currentPage >= totalPages)">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </li>
+                    <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => GoToPage(totalPages)" disabled="@(currentPage >= totalPages)">
+                            <i class="bi bi-chevron-double-right"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div>
+                    <select class="form-select form-select-sm" style="width: auto;" @onchange="OnPageSizeChanged">
+                        <option value="6" selected="@(pageSize == 6)">6 por página</option>
+                        <option value="12" selected="@(pageSize == 12)">12 por página</option>
+                        <option value="24" selected="@(pageSize == 24)">24 por página</option>
+                        <option value="48" selected="@(pageSize == 48)">48 por página</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    }
+</div>
+
+<!-- Modal de Cargo -->
+@if (showChargeModal && selectedCard != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-cart-plus me-2"></i>Realizar Cargo</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModals"></button>
+                </div>
+                <EditForm Model="transactionModel" OnValidSubmit="ProcessCharge">
+                    <DataAnnotationsValidator />
+                    <div class="modal-body">
+                        <p>Tarjeta: <strong>@selectedCard.MaskedCardNumber</strong></p>
+                        <p>Crédito disponible: <strong class="text-success">@selectedCard.AvailableCredit.ToString("C")</strong></p>
+                        <div class="mb-3">
+                            <label class="form-label">Monto del cargo</label>
+                            <InputNumber @bind-Value="transactionModel.Amount" class="form-control" />
+                            <ValidationMessage For="() => transactionModel.Amount" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="CloseModals">Cancelar</button>
+                        <button type="submit" class="btn btn-success" disabled="@isProcessing">
+                            @if (isProcessing)
+                            {
+                                <span class="spinner-border spinner-border-sm me-1"></span>
+                            }
+                            Realizar Cargo
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal de Pago -->
+@if (showPaymentModal && selectedCard != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-cash me-2"></i>Realizar Pago</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModals"></button>
+                </div>
+                <EditForm Model="transactionModel" OnValidSubmit="ProcessPayment">
+                    <DataAnnotationsValidator />
+                    <div class="modal-body">
+                        <p>Tarjeta: <strong>@selectedCard.MaskedCardNumber</strong></p>
+                        <p>Deuda actual: <strong class="text-danger">@selectedCard.UsedCredit.ToString("C")</strong></p>
+                        <div class="mb-3">
+                            <label class="form-label">Monto del pago</label>
+                            <InputNumber @bind-Value="transactionModel.Amount" class="form-control" />
+                            <ValidationMessage For="() => transactionModel.Amount" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="CloseModals">Cancelar</button>
+                        <button type="submit" class="btn btn-info" disabled="@isProcessing">
+                            @if (isProcessing)
+                            {
+                                <span class="spinner-border spinner-border-sm me-1"></span>
+                            }
+                            Realizar Pago
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal de Confirmación de Eliminación -->
+@if (showDeleteModal && selectedCard != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close btn-close-white" @onclick="CloseModals"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de que desea eliminar la tarjeta <strong>@selectedCard.MaskedCardNumber</strong>?</p>
+                    <p class="text-danger"><small>Esta acción no se puede deshacer.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModals">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="DeleteCard" disabled="@isProcessing">
+                        @if (isProcessing)
+                        {
+                            <span class="spinner-border spinner-border-sm me-1"></span>
+                        }
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+private List<CreditCardViewModel> creditCards = [];
+private bool isLoading = true;
+private bool isProcessing = false;
+private string? errorMessage;
+private string? successMessage;
+
+private int currentPage = 1;
+private int pageSize = 6;
+private int totalCount = 0;
+private int totalPages = 0;
+
+private bool showChargeModal = false;
+private bool showPaymentModal = false;
+private bool showDeleteModal = false;
+private CreditCardViewModel? selectedCard;
+private TransactionModel transactionModel = new();
+
+protected override async Task OnInitializedAsync()
+{
+    await LoadCreditCards();
+}
+
+private async Task LoadCreditCards()
+{
+    try
+    {
+        isLoading = true;
+        var result = await ApiService.GetAllPagedAsync(currentPage, pageSize);
+        creditCards = result.Items;
+        totalCount = result.TotalCount;
+        totalPages = result.TotalPages;
+    }
+    catch (Exception ex)
+    {
+        errorMessage = $"Error al cargar las tarjetas: {ex.Message}";
+    }
+    finally
+    {
+        isLoading = false;
+    }
+}
+
+private async Task GoToPage(int page)
+{
+    if (page < 1 || page > totalPages || page == currentPage) return;
+    currentPage = page;
+    await LoadCreditCards();
+}
+
+private async Task OnPageSizeChanged(ChangeEventArgs e)
+{
+    if (int.TryParse(e.Value?.ToString(), out var newSize))
+    {
+        pageSize = newSize;
+        currentPage = 1;
+        await LoadCreditCards();
+    }
+}
+
+private IEnumerable<int> GetPageNumbers()
+{
+    const int maxVisiblePages = 5;
+    var startPage = Math.Max(1, currentPage - maxVisiblePages / 2);
+    var endPage = Math.Min(totalPages, startPage + maxVisiblePages - 1);
+        
+    if (endPage - startPage + 1 < maxVisiblePages)
+    {
+        startPage = Math.Max(1, endPage - maxVisiblePages + 1);
+    }
+        
+    return Enumerable.Range(startPage, endPage - startPage + 1);
+}
+
+    private void ShowChargeModal(CreditCardViewModel card)
+    {
+        selectedCard = card;
+        transactionModel = new TransactionModel();
+        showChargeModal = true;
+    }
+
+    private void ShowPaymentModal(CreditCardViewModel card)
+    {
+        selectedCard = card;
+        transactionModel = new TransactionModel { Amount = card.UsedCredit };
+        showPaymentModal = true;
+    }
+
+    private void ShowDeleteConfirmation(CreditCardViewModel card)
+    {
+        selectedCard = card;
+        showDeleteModal = true;
+    }
+
+    private void CloseModals()
+    {
+        showChargeModal = false;
+        showPaymentModal = false;
+        showDeleteModal = false;
+        selectedCard = null;
+    }
+
+    private async Task ProcessCharge()
+    {
+        if (selectedCard == null) return;
+
+        try
+        {
+            isProcessing = true;
+            await ApiService.MakeChargeAsync(selectedCard.Id, transactionModel.Amount);
+            successMessage = $"Cargo de {transactionModel.Amount:C} realizado correctamente";
+            CloseModals();
+            await LoadCreditCards();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    private async Task ProcessPayment()
+    {
+        if (selectedCard == null) return;
+
+        try
+        {
+            isProcessing = true;
+            await ApiService.MakePaymentAsync(selectedCard.Id, transactionModel.Amount);
+            successMessage = $"Pago de {transactionModel.Amount:C} realizado correctamente";
+            CloseModals();
+            await LoadCreditCards();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    private async Task DeleteCard()
+    {
+        if (selectedCard == null) return;
+
+        try
+        {
+            isProcessing = true;
+            await ApiService.DeleteAsync(selectedCard.Id);
+            successMessage = "Tarjeta eliminada correctamente";
+            CloseModals();
+            await LoadCreditCards();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    private string GetCardTypeClass(string cardType) => cardType.ToLower() switch
+    {
+        "visa" => "bg-primary",
+        "mastercard" => "bg-danger",
+        "american express" => "bg-info",
+        "discover" => "bg-warning",
+        _ => "bg-secondary"
+    };
+
+    private string GetProgressBarClass(decimal percentage) => percentage switch
+    {
+        >= 80 => "bg-danger",
+        >= 50 => "bg-warning",
+        _ => "bg-success"
+    };
+}

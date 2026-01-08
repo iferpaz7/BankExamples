@@ -1,0 +1,117 @@
+@page "/creditcards/create"
+@using CreditCard.Web.Models
+@using CreditCard.Web.Services
+@inject CreditCardApiService ApiService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Nueva Tarjeta de Crédito</PageTitle>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-credit-card-2-front me-2"></i>Nueva Tarjeta de Crédito</h4>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle me-2"></i>@errorMessage
+                        </div>
+                    }
+
+                    <EditForm Model="model" OnValidSubmit="HandleSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Número de Tarjeta</label>
+                            <InputText @bind-Value="model.CardNumber" class="form-control" placeholder="4111111111111111" maxlength="19" />
+                            <ValidationMessage For="() => model.CardNumber" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Titular</label>
+                            <InputText @bind-Value="model.CardHolderName" class="form-control" placeholder="JUAN PEREZ" />
+                            <ValidationMessage For="() => model.CardHolderName" class="text-danger" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Fecha de Expiración</label>
+                                <InputText @bind-Value="model.ExpirationDate" class="form-control" placeholder="MM/YY" maxlength="5" />
+                                <ValidationMessage For="() => model.ExpirationDate" class="text-danger" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">CVV</label>
+                                <InputText @bind-Value="model.CVV" class="form-control" placeholder="123" maxlength="4" type="password" />
+                                <ValidationMessage For="() => model.CVV" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tipo de Tarjeta</label>
+                                <InputSelect @bind-Value="model.CardType" class="form-select">
+                                    <option value="Visa">Visa</option>
+                                    <option value="MasterCard">MasterCard</option>
+                                    <option value="American Express">American Express</option>
+                                    <option value="Discover">Discover</option>
+                                </InputSelect>
+                                <ValidationMessage For="() => model.CardType" class="text-danger" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Límite de Crédito</label>
+                                <InputNumber @bind-Value="model.CreditLimit" class="form-control" />
+                                <ValidationMessage For="() => model.CreditLimit" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/creditcards" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary" disabled="@isSubmitting">
+                                @if (isSubmitting)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-1"></span>
+                                }
+                                <i class="bi bi-check-lg me-1"></i>Crear Tarjeta
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private CreateCreditCardModel model = new();
+    private bool isSubmitting = false;
+    private string? errorMessage;
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            isSubmitting = true;
+            errorMessage = null;
+
+            await ApiService.CreateAsync(model);
+            Navigation.NavigateTo("/creditcards");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

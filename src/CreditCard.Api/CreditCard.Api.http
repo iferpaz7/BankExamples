@@ -1,0 +1,263 @@
+@CreditCard.Api_HostAddress = http://localhost:5282
+@cardId = 
+
+###############################################################################
+# ?? CREDIT CARD API - Testing Endpoints
+###############################################################################
+
+###############################################################################
+# ?? CRUD OPERATIONS
+###############################################################################
+
+### 1. ? CREATE - Crear nueva tarjeta Visa
+POST {{CreditCard.Api_HostAddress}}/api/creditcards
+Content-Type: application/json
+
+{
+  "cardNumber": "4532015112830366",
+  "cardHolderName": "Juan Pérez",
+  "expirationDate": "12/2027",
+  "cvv": "123",
+  "creditLimit": 10000.00,
+  "cardType": "Visa"
+}
+
+### 2. ? CREATE - Crear tarjeta MasterCard
+POST {{CreditCard.Api_HostAddress}}/api/creditcards
+Content-Type: application/json
+
+{
+  "cardNumber": "5425233430109903",
+  "cardHolderName": "María García",
+  "expirationDate": "06/2026",
+  "cvv": "456",
+  "creditLimit": 15000.00,
+  "cardType": "MasterCard"
+}
+
+### 3. ? CREATE - Crear tarjeta American Express
+POST {{CreditCard.Api_HostAddress}}/api/creditcards
+Content-Type: application/json
+
+{
+  "cardNumber": "374245455400126",
+  "cardHolderName": "Carlos Rodríguez",
+  "expirationDate": "09/2028",
+  "cvv": "7890",
+  "creditLimit": 25000.00,
+  "cardType": "American Express"
+}
+
+### 4. ?? GET ALL - Obtener todas las tarjetas
+GET {{CreditCard.Api_HostAddress}}/api/creditcards
+Accept: application/json
+
+### 5. ?? GET BY ID - Obtener tarjeta por ID
+# Nota: Reemplaza {cardId} con un ID real de la respuesta anterior
+GET {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}
+Accept: application/json
+
+### 6. ?? UPDATE - Actualizar tarjeta
+# Nota: Reemplaza {cardId} con un ID real
+PUT {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}
+Content-Type: application/json
+
+{
+  "cardHolderName": "Juan Carlos Pérez Martínez",
+  "creditLimit": 12000.00
+}
+
+### 7. ??? DELETE - Eliminar tarjeta
+# Nota: Reemplaza {cardId} con un ID real
+DELETE {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}
+
+###############################################################################
+# ?? OPERACIONES DE NEGOCIO
+###############################################################################
+
+### 8. ?? CHARGE - Realizar cargo a la tarjeta
+# Nota: Reemplaza {cardId} con un ID real
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/charge
+Content-Type: application/json
+
+{
+  "amount": 500.00
+}
+
+### 9. ?? PAYMENT - Realizar pago a la tarjeta
+# Nota: Reemplaza {cardId} con un ID real
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/payment
+Content-Type: application/json
+
+{
+  "amount": 300.00
+}
+
+### 10. ? DEACTIVATE - Desactivar tarjeta
+# Nota: Reemplaza {cardId} con un ID real
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/deactivate
+
+### 11. ? ACTIVATE - Activar tarjeta
+# Nota: Reemplaza {cardId} con un ID real
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/activate
+
+###############################################################################
+# ?? REPORTES CON DAPPER
+###############################################################################
+
+### 12. ?? REPORT - Reporte completo de todas las tarjetas
+GET {{CreditCard.Api_HostAddress}}/api/reports/creditcards
+Accept: application/json
+
+### 13. ?? REPORT BY ID - Reporte de tarjeta por ID
+# Nota: Reemplaza {cardId} con un ID real
+GET {{CreditCard.Api_HostAddress}}/api/reports/creditcards/{{cardId}}
+Accept: application/json
+
+### 14. ?? REPORT - Tarjetas activas
+GET {{CreditCard.Api_HostAddress}}/api/reports/creditcards/active
+Accept: application/json
+
+### 15. ?? REPORT - Tarjetas con alto uso de crédito (>= 70%)
+GET {{CreditCard.Api_HostAddress}}/api/reports/creditcards/high-usage?minPercentage=70
+Accept: application/json
+
+### 16. ?? REPORT - Tarjetas con uso crítico (>= 90%)
+GET {{CreditCard.Api_HostAddress}}/api/reports/creditcards/high-usage?minPercentage=90
+Accept: application/json
+
+###############################################################################
+# ?? TEST SCENARIOS - Flujos Completos
+###############################################################################
+
+### TEST SCENARIO 1: Crear tarjeta y realizar múltiples operaciones
+# Paso 1: Crear tarjeta
+POST {{CreditCard.Api_HostAddress}}/api/creditcards
+Content-Type: application/json
+
+{
+  "cardNumber": "4916338506082832",
+  "cardHolderName": "Ana López Test",
+  "expirationDate": "03/2029",
+  "cvv": "321",
+  "creditLimit": 5000.00,
+  "cardType": "Visa"
+}
+
+# Paso 2: Copiar el ID de la respuesta y usarlo en las siguientes peticiones
+
+### TEST SCENARIO 2: Realizar cargo
+# Reemplaza {cardId} con el ID obtenido
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/charge
+Content-Type: application/json
+
+{
+  "amount": 2500.00
+}
+
+### TEST SCENARIO 3: Realizar otro cargo
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/charge
+Content-Type: application/json
+
+{
+  "amount": 1500.00
+}
+
+### TEST SCENARIO 4: Ver estado después de cargos (80% usado)
+GET {{CreditCard.Api_HostAddress}}/api/reports/creditcards/{{cardId}}
+Accept: application/json
+
+### TEST SCENARIO 5: Realizar pago parcial
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/payment
+Content-Type: application/json
+
+{
+  "amount": 1000.00
+}
+
+### TEST SCENARIO 6: Ver estado después del pago
+GET {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}
+Accept: application/json
+
+###############################################################################
+# ?? TEST CASOS DE ERROR
+###############################################################################
+
+### ERROR TEST 1: Intentar crear tarjeta con número duplicado
+POST {{CreditCard.Api_HostAddress}}/api/creditcards
+Content-Type: application/json
+
+{
+  "cardNumber": "4532015112830366",
+  "cardHolderName": "Duplicate Test",
+  "expirationDate": "12/2027",
+  "cvv": "123",
+  "creditLimit": 10000.00,
+  "cardType": "Visa"
+}
+
+### ERROR TEST 2: Intentar cargo mayor al crédito disponible
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/charge
+Content-Type: application/json
+
+{
+  "amount": 999999.00
+}
+
+### ERROR TEST 3: Intentar pago que exceda el límite de crédito
+POST {{CreditCard.Api_HostAddress}}/api/creditcards/{{cardId}}/payment
+Content-Type: application/json
+
+{
+  "amount": 999999.00
+}
+
+### ERROR TEST 4: Obtener tarjeta con ID inválido
+GET {{CreditCard.Api_HostAddress}}/api/creditcards/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+### ERROR TEST 5: Crear tarjeta con CVV inválido (2 dígitos)
+POST {{CreditCard.Api_HostAddress}}/api/creditcards
+Content-Type: application/json
+
+{
+  "cardNumber": "4916338506082833",
+  "cardHolderName": "Invalid CVV Test",
+  "expirationDate": "12/2027",
+  "cvv": "12",
+  "creditLimit": 10000.00,
+  "cardType": "Visa"
+}
+
+### ERROR TEST 6: Crear tarjeta con número muy corto
+POST {{CreditCard.Api_HostAddress}}/api/creditcards
+Content-Type: application/json
+
+{
+  "cardNumber": "123456789",
+  "cardHolderName": "Invalid Card Test",
+  "expirationDate": "12/2027",
+  "cvv": "123",
+  "creditLimit": 10000.00,
+  "cardType": "Visa"
+}
+
+###############################################################################
+# ?? INSTRUCCIONES DE USO
+###############################################################################
+
+# 1. Ejecutar la API: dotnet run (en src/CreditCard.Api)
+# 2. La API estará disponible en: http://localhost:5282
+# 3. Para usar Swagger: http://localhost:5282/swagger
+# 4. Ejecutar las peticiones en orden para los TEST SCENARIOS
+# 5. Copiar el ID de las respuestas y reemplazar {{cardId}} en las siguientes peticiones
+# 6. Alternativamente, definir la variable al inicio: @cardId = tu-guid-aqui
+
+###############################################################################
+# ?? VARIABLES DE ENTORNO (Visual Studio)
+###############################################################################
+
+# Puedes definir variables personalizadas aquí:
+# @cardId = 12345678-1234-1234-1234-123456789abc
+
+###
