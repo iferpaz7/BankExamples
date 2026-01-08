@@ -4,6 +4,11 @@ public class CreditCardEntity
 {
     public Guid Id { get; private set; }
     public string CardNumber { get; private set; } = string.Empty;
+    /// <summary>
+    /// HMAC hash of the card number for searchable uniqueness constraint.
+    /// The actual CardNumber is encrypted, so we use this hash for lookups.
+    /// </summary>
+    public string CardNumberHash { get; private set; } = string.Empty;
     public string CardHolderName { get; private set; } = string.Empty;
     public string ExpirationDate { get; private set; } = string.Empty;
     public string CVV { get; private set; } = string.Empty;
@@ -22,7 +27,8 @@ public class CreditCardEntity
         string expirationDate,
         string cvv,
         decimal creditLimit,
-        string cardType)
+        string cardType,
+        Func<string, string>? hashFunction = null)
     {
         ValidateCardNumber(cardNumber);
         ValidateCardHolderName(cardHolderName);
@@ -32,6 +38,7 @@ public class CreditCardEntity
         {
             Id = Guid.NewGuid(),
             CardNumber = cardNumber,
+            CardNumberHash = hashFunction?.Invoke(cardNumber) ?? string.Empty,
             CardHolderName = cardHolderName.ToUpper(),
             ExpirationDate = expirationDate,
             CVV = cvv,
@@ -41,6 +48,17 @@ public class CreditCardEntity
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
+    }
+
+    /// <summary>
+    /// Sets the card number hash. Used when the hash function is not available at creation time.
+    /// </summary>
+    public void SetCardNumberHash(string hash)
+    {
+        if (!string.IsNullOrEmpty(hash))
+        {
+            CardNumberHash = hash;
+        }
     }
 
     public void UpdateCardHolder(string newCardHolderName)

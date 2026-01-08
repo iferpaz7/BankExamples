@@ -15,24 +15,33 @@ public class CreditCardConfiguration : IEntityTypeConfiguration<CreditCardEntity
         builder.Property(c => c.Id)
             .ValueGeneratedNever();
 
+        // CardNumber is encrypted, so we need more space for the encrypted value
         builder.Property(c => c.CardNumber)
             .IsRequired()
-            .HasMaxLength(19);
+            .HasMaxLength(256);
 
-        builder.HasIndex(c => c.CardNumber)
+        // CardNumberHash is used for unique constraint instead of CardNumber
+        // since the encrypted CardNumber uses random IV and won't be searchable
+        builder.Property(c => c.CardNumberHash)
+            .IsRequired()
+            .HasMaxLength(64);
+
+        builder.HasIndex(c => c.CardNumberHash)
             .IsUnique();
 
         builder.Property(c => c.CardHolderName)
             .IsRequired()
             .HasMaxLength(100);
 
+        // ExpirationDate is encrypted, needs more space
         builder.Property(c => c.ExpirationDate)
             .IsRequired()
-            .HasMaxLength(7);
+            .HasMaxLength(128);
 
+        // CVV is encrypted, needs more space
         builder.Property(c => c.CVV)
             .IsRequired()
-            .HasMaxLength(4);
+            .HasMaxLength(128);
 
         builder.Property(c => c.CreditLimit)
             .HasPrecision(18, 2);

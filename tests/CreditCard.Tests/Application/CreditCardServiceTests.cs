@@ -1,6 +1,7 @@
 namespace CreditCard.Tests.Application;
 
 using CreditCard.Application.DTOs;
+using CreditCard.Application.Interfaces;
 using CreditCard.Application.Services;
 using CreditCard.Domain.Entities;
 using CreditCard.Domain.Repositories;
@@ -12,14 +13,21 @@ public class CreditCardServiceTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly Mock<ICreditCardRepository> _repositoryMock;
+    private readonly Mock<IHashService> _hashServiceMock;
     private readonly CreditCardService _service;
 
     public CreditCardServiceTests()
     {
         _repositoryMock = new Mock<ICreditCardRepository>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
+        _hashServiceMock = new Mock<IHashService>();
         _unitOfWorkMock.Setup(x => x.CreditCards).Returns(_repositoryMock.Object);
-        _service = new CreditCardService(_unitOfWorkMock.Object);
+        
+        // Setup hash service to return predictable hashes
+        _hashServiceMock.Setup(x => x.ComputeHash(It.IsAny<string>()))
+            .Returns<string>(s => $"HASH_{s}");
+        
+        _service = new CreditCardService(_unitOfWorkMock.Object, _hashServiceMock.Object);
     }
 
     #region Pruebas Positivas - CreateAsync
@@ -36,7 +44,7 @@ public class CreditCardServiceTests
             5000m,
             "Visa");
 
-        _repositoryMock.Setup(x => x.GetByCardNumberAsync(dto.CardNumber, It.IsAny<CancellationToken>()))
+        _repositoryMock.Setup(x => x.GetByCardNumberHashAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((CreditCardEntity?)null);
 
         // Act
@@ -52,6 +60,7 @@ public class CreditCardServiceTests
 
         _repositoryMock.Verify(x => x.AddAsync(It.IsAny<CreditCardEntity>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _hashServiceMock.Verify(x => x.ComputeHash(dto.CardNumber), Times.AtLeastOnce);
     }
 
     #endregion
@@ -73,7 +82,7 @@ public class CreditCardServiceTests
         var existingCard = CreditCardEntity.Create(
             dto.CardNumber, "Otro Titular", "01/26", "456", 3000m, "Visa");
 
-        _repositoryMock.Setup(x => x.GetByCardNumberAsync(dto.CardNumber, It.IsAny<CancellationToken>()))
+        _repositoryMock.Setup(x => x.GetByCardNumberHashAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(existingCard);
 
         // Act

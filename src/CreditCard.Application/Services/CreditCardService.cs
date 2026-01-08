@@ -8,15 +8,18 @@ using CreditCard.Domain.Repositories;
 public class CreditCardService : ICreditCardService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IHashService _hashService;
 
-    public CreditCardService(IUnitOfWork unitOfWork)
+    public CreditCardService(IUnitOfWork unitOfWork, IHashService hashService)
     {
         _unitOfWork = unitOfWork;
+        _hashService = hashService;
     }
 
     public async Task<CreditCardResponseDto> CreateAsync(CreateCreditCardDto dto, CancellationToken cancellationToken = default)
     {
-        var existingCard = await _unitOfWork.CreditCards.GetByCardNumberAsync(dto.CardNumber, cancellationToken);
+        var cardNumberHash = _hashService.ComputeHash(dto.CardNumber);
+        var existingCard = await _unitOfWork.CreditCards.GetByCardNumberHashAsync(cardNumberHash, cancellationToken);
         if (existingCard != null)
             throw new InvalidOperationException("Ya existe una tarjeta con este número");
 
@@ -26,7 +29,8 @@ public class CreditCardService : ICreditCardService
             dto.ExpirationDate,
             dto.CVV,
             dto.CreditLimit,
-            dto.CardType
+            dto.CardType,
+            _hashService.ComputeHash
         );
 
         await _unitOfWork.CreditCards.AddAsync(creditCard, cancellationToken);

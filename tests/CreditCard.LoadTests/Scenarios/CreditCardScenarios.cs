@@ -27,6 +27,14 @@ public class CreditCardScenarios
     }
 
     /// <summary>
+    /// Helper method to create a fail response with message
+    /// </summary>
+    private static IResponse CreateFailResponse(string message)
+    {
+        return Response.Fail(message, statusCode: "0", sizeBytes: 0);
+    }
+
+    /// <summary>
     /// Genera un número de tarjeta único para las pruebas
     /// </summary>
     private static string GenerateCardNumber()
@@ -81,11 +89,12 @@ public class CreditCardScenarios
         return Scenario.Create("create_card", async context =>
         {
             var createRequest = GenerateCreateRequest();
+            var jsonContent = System.Text.Json.JsonSerializer.Serialize(createRequest);
             
             var request = Http.CreateRequest("POST", $"{_baseUrl}/api/creditcards")
                 .WithHeader("Content-Type", "application/json")
                 .WithHeader("Accept", "application/json")
-                .WithJsonBody(createRequest);
+                .WithBody(new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json"));
 
             var response = await Http.Send(_httpClient, request);
             
@@ -111,16 +120,16 @@ public class CreditCardScenarios
                 var createResponse = await _httpClient.PostAsJsonAsync("/api/creditcards", createRequest);
                 
                 if (!createResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)createResponse.StatusCode);
+                    return CreateFailResponse($"Create failed: {(int)createResponse.StatusCode}");
 
                 var createdCard = await createResponse.Content.ReadFromJsonAsync<CreditCardResponse>();
                 if (createdCard == null)
-                    return Response.Fail(message: "Failed to deserialize created card");
+                    return CreateFailResponse("Failed to deserialize created card");
 
                 // 2. Obtener tarjeta por ID
                 var getResponse = await _httpClient.GetAsync($"/api/creditcards/{createdCard.Id}");
                 if (!getResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)getResponse.StatusCode);
+                    return CreateFailResponse($"Get failed: {(int)getResponse.StatusCode}");
 
                 // 3. Realizar cargo
                 var chargeAmount = Math.Min(100, createdCard.CreditLimit * 0.1m);
@@ -129,7 +138,7 @@ public class CreditCardScenarios
                     new AmountRequest { Amount = chargeAmount });
                 
                 if (!chargeResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)chargeResponse.StatusCode);
+                    return CreateFailResponse($"Charge failed: {(int)chargeResponse.StatusCode}");
 
                 // 4. Realizar pago
                 var paymentResponse = await _httpClient.PostAsJsonAsync(
@@ -137,32 +146,32 @@ public class CreditCardScenarios
                     new AmountRequest { Amount = chargeAmount / 2 });
                 
                 if (!paymentResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)paymentResponse.StatusCode);
+                    return CreateFailResponse($"Payment failed: {(int)paymentResponse.StatusCode}");
 
                 // 5. Desactivar tarjeta
                 var deactivateResponse = await _httpClient.PostAsync(
                     $"/api/creditcards/{createdCard.Id}/deactivate", null);
                 
                 if (!deactivateResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)deactivateResponse.StatusCode);
+                    return CreateFailResponse($"Deactivate failed: {(int)deactivateResponse.StatusCode}");
 
                 // 6. Activar tarjeta
                 var activateResponse = await _httpClient.PostAsync(
                     $"/api/creditcards/{createdCard.Id}/activate", null);
                 
                 if (!activateResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)activateResponse.StatusCode);
+                    return CreateFailResponse($"Activate failed: {(int)activateResponse.StatusCode}");
 
                 // 7. Eliminar tarjeta
                 var deleteResponse = await _httpClient.DeleteAsync($"/api/creditcards/{createdCard.Id}");
                 
                 return deleteResponse.IsSuccessStatusCode 
                     ? Response.Ok() 
-                    : Response.Fail(statusCode: (int)deleteResponse.StatusCode);
+                    : CreateFailResponse($"Delete failed: {(int)deleteResponse.StatusCode}");
             }
             catch (Exception ex)
             {
-                return Response.Fail(message: ex.Message);
+                return CreateFailResponse(ex.Message);
             }
         })
         .WithoutWarmUp()
@@ -187,7 +196,7 @@ public class CreditCardScenarios
                     var response = await _httpClient.GetAsync("/api/creditcards");
                     return response.IsSuccessStatusCode 
                         ? Response.Ok() 
-                        : Response.Fail(statusCode: (int)response.StatusCode);
+                        : CreateFailResponse($"Get failed: {(int)response.StatusCode}");
                 }
                 else if (operation < 80) // 20% creaciones
                 {
@@ -195,14 +204,14 @@ public class CreditCardScenarios
                     var response = await _httpClient.PostAsJsonAsync("/api/creditcards", createRequest);
                     return response.IsSuccessStatusCode 
                         ? Response.Ok() 
-                        : Response.Fail(statusCode: (int)response.StatusCode);
+                        : CreateFailResponse($"Create failed: {(int)response.StatusCode}");
                 }
                 else // 20% operaciones en tarjetas existentes
                 {
                     // Obtener tarjetas existentes
                     var getResponse = await _httpClient.GetAsync("/api/creditcards");
                     if (!getResponse.IsSuccessStatusCode)
-                        return Response.Fail(statusCode: (int)getResponse.StatusCode);
+                        return CreateFailResponse($"Get failed: {(int)getResponse.StatusCode}");
 
                     var cards = await getResponse.Content.ReadFromJsonAsync<List<CreditCardResponse>>();
                     if (cards == null || cards.Count == 0)
@@ -212,7 +221,7 @@ public class CreditCardScenarios
                         var createResponse = await _httpClient.PostAsJsonAsync("/api/creditcards", createRequest);
                         return createResponse.IsSuccessStatusCode 
                             ? Response.Ok() 
-                            : Response.Fail(statusCode: (int)createResponse.StatusCode);
+                            : CreateFailResponse($"Create failed: {(int)createResponse.StatusCode}");
                     }
 
                     var randomCard = cards[_random.Next(cards.Count)];
@@ -225,7 +234,7 @@ public class CreditCardScenarios
                             new AmountRequest { Amount = chargeAmount });
                         return chargeResponse.IsSuccessStatusCode 
                             ? Response.Ok() 
-                            : Response.Fail(statusCode: (int)chargeResponse.StatusCode);
+                            : CreateFailResponse($"Charge failed: {(int)chargeResponse.StatusCode}");
                     }
                     else
                     {
@@ -234,13 +243,13 @@ public class CreditCardScenarios
                             new AmountRequest { Amount = 5 });
                         return paymentResponse.IsSuccessStatusCode 
                             ? Response.Ok() 
-                            : Response.Fail(statusCode: (int)paymentResponse.StatusCode);
+                            : CreateFailResponse($"Payment failed: {(int)paymentResponse.StatusCode}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                return Response.Fail(message: ex.Message);
+                return CreateFailResponse(ex.Message);
             }
         })
         .WithoutWarmUp()
@@ -257,11 +266,12 @@ public class CreditCardScenarios
         return Scenario.Create("stress_test", async context =>
         {
             var createRequest = GenerateCreateRequest();
+            var jsonContent = System.Text.Json.JsonSerializer.Serialize(createRequest);
             
             var request = Http.CreateRequest("POST", $"{_baseUrl}/api/creditcards")
                 .WithHeader("Content-Type", "application/json")
                 .WithHeader("Accept", "application/json")
-                .WithJsonBody(createRequest);
+                .WithBody(new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json"));
 
             var response = await Http.Send(_httpClient, request);
             
@@ -283,7 +293,7 @@ public class CreditCardScenarios
             var response = await _httpClient.GetAsync("/api/creditcards");
             return response.IsSuccessStatusCode 
                 ? Response.Ok() 
-                : Response.Fail(statusCode: (int)response.StatusCode);
+                : CreateFailResponse($"Get failed: {(int)response.StatusCode}");
         })
         .WithoutWarmUp()
         .WithLoadSimulations(
@@ -312,23 +322,23 @@ public class CreditCardScenarios
                 // Obtener reporte general
                 var reportResponse = await _httpClient.GetAsync("/api/reports/creditcards");
                 if (!reportResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)reportResponse.StatusCode);
+                    return CreateFailResponse($"Report failed: {(int)reportResponse.StatusCode}");
 
                 // Obtener tarjetas activas
                 var activeResponse = await _httpClient.GetAsync("/api/reports/creditcards/active");
                 if (!activeResponse.IsSuccessStatusCode)
-                    return Response.Fail(statusCode: (int)activeResponse.StatusCode);
+                    return CreateFailResponse($"Active report failed: {(int)activeResponse.StatusCode}");
 
                 // Obtener tarjetas con alto uso
                 var highUsageResponse = await _httpClient.GetAsync("/api/reports/creditcards/high-usage?percentage=50");
                 
                 return highUsageResponse.IsSuccessStatusCode 
                     ? Response.Ok() 
-                    : Response.Fail(statusCode: (int)highUsageResponse.StatusCode);
+                    : CreateFailResponse($"High usage report failed: {(int)highUsageResponse.StatusCode}");
             }
             catch (Exception ex)
             {
-                return Response.Fail(message: ex.Message);
+                return CreateFailResponse(ex.Message);
             }
         })
         .WithoutWarmUp()

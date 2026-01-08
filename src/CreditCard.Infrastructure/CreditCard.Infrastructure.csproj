@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CreditCard.Application\CreditCard.Application.csproj" />
     <ProjectReference Include="..\CreditCard.Domain\CreditCard.Domain.csproj" />
   </ItemGroup>
 

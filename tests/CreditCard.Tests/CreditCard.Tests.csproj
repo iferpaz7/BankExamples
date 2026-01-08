@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CreditCard.Application\CreditCard.Application.csproj" />
     <ProjectReference Include="..\..\src\CreditCard.Domain\CreditCard.Domain.csproj" />
+    <ProjectReference Include="..\..\src\CreditCard.Infrastructure\CreditCard.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

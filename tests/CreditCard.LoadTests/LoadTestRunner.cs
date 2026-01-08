@@ -41,10 +41,6 @@ public class LoadTestRunner
             .RegisterScenarios(scenario)
             .WithReportFolder("LoadTestResults/SmokeTest")
             .WithReportFileName($"smoke_test_{DateTime.Now:yyyyMMdd_HHmmss}")
-            .WithReportFormats(
-                NBomber.Contracts.ReportFormat.Html,
-                NBomber.Contracts.ReportFormat.Csv,
-                NBomber.Contracts.ReportFormat.Md)
             .Run();
     }
 
@@ -73,10 +69,6 @@ public class LoadTestRunner
             .RegisterScenarios(getAllScenario, createScenario, mixedScenario)
             .WithReportFolder("LoadTestResults/LoadTest")
             .WithReportFileName($"load_test_{DateTime.Now:yyyyMMdd_HHmmss}")
-            .WithReportFormats(
-                NBomber.Contracts.ReportFormat.Html,
-                NBomber.Contracts.ReportFormat.Csv,
-                NBomber.Contracts.ReportFormat.Md)
             .Run();
     }
 
@@ -97,10 +89,6 @@ public class LoadTestRunner
             .RegisterScenarios(stressScenario)
             .WithReportFolder("LoadTestResults/StressTest")
             .WithReportFileName($"stress_test_{DateTime.Now:yyyyMMdd_HHmmss}")
-            .WithReportFormats(
-                NBomber.Contracts.ReportFormat.Html,
-                NBomber.Contracts.ReportFormat.Csv,
-                NBomber.Contracts.ReportFormat.Md)
             .Run();
     }
 
@@ -119,10 +107,6 @@ public class LoadTestRunner
             .RegisterScenarios(spikeScenario)
             .WithReportFolder("LoadTestResults/SpikeTest")
             .WithReportFileName($"spike_test_{DateTime.Now:yyyyMMdd_HHmmss}")
-            .WithReportFormats(
-                NBomber.Contracts.ReportFormat.Html,
-                NBomber.Contracts.ReportFormat.Csv,
-                NBomber.Contracts.ReportFormat.Md)
             .Run();
     }
 
@@ -143,10 +127,6 @@ public class LoadTestRunner
             .RegisterScenarios(crudScenario)
             .WithReportFolder("LoadTestResults/CrudTest")
             .WithReportFileName($"crud_test_{DateTime.Now:yyyyMMdd_HHmmss}")
-            .WithReportFormats(
-                NBomber.Contracts.ReportFormat.Html,
-                NBomber.Contracts.ReportFormat.Csv,
-                NBomber.Contracts.ReportFormat.Md)
             .Run();
     }
 
@@ -167,10 +147,6 @@ public class LoadTestRunner
             .RegisterScenarios(reportsScenario)
             .WithReportFolder("LoadTestResults/ReportsTest")
             .WithReportFileName($"reports_test_{DateTime.Now:yyyyMMdd_HHmmss}")
-            .WithReportFormats(
-                NBomber.Contracts.ReportFormat.Html,
-                NBomber.Contracts.ReportFormat.Csv,
-                NBomber.Contracts.ReportFormat.Md)
             .Run();
     }
 

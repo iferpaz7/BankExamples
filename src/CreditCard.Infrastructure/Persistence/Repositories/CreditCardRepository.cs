@@ -39,10 +39,10 @@ public class CreditCardRepository : ICreditCardRepository
         return (items, totalCount);
     }
 
-    public async Task<CreditCardEntity?> GetByCardNumberAsync(string cardNumber, CancellationToken cancellationToken = default)
+    public async Task<CreditCardEntity?> GetByCardNumberHashAsync(string cardNumberHash, CancellationToken cancellationToken = default)
     {
         return await _context.CreditCards
-            .FirstOrDefaultAsync(c => c.CardNumber == cardNumber, cancellationToken);
+            .FirstOrDefaultAsync(c => c.CardNumberHash == cardNumberHash, cancellationToken);
     }
 
     public async Task AddAsync(CreditCardEntity creditCard, CancellationToken cancellationToken = default)

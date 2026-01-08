@@ -232,24 +232,26 @@ public class CreditCardRepositoryTests : IDisposable
 
     #endregion
 
-    #region Pruebas de Integración - GetByCardNumberAsync
+    #region Pruebas de Integración - GetByCardNumberHashAsync
 
     [Fact]
-    public async Task GetByCardNumberAsync_ConNumeroExistente_DebeRetornarEntidad()
+    public async Task GetByCardNumberHashAsync_ConHashExistente_DebeRetornarEntidad()
     {
         // Arrange
+        var cardNumberHash = "TEST_HASH_4111111111111111";
         var creditCard = CreditCardEntity.Create(
             "4111111111111111",
             "Juan Perez",
             "12/25",
             "123",
             5000m,
-            "Visa");
+            "Visa",
+            s => $"TEST_HASH_{s}");
         await _context.CreditCards.AddAsync(creditCard);
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetByCardNumberAsync("4111111111111111");
+        var result = await _repository.GetByCardNumberHashAsync(cardNumberHash);
 
         // Assert
         result.Should().NotBeNull();
@@ -257,10 +259,10 @@ public class CreditCardRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetByCardNumberAsync_ConNumeroInexistente_DebeRetornarNull()
+    public async Task GetByCardNumberHashAsync_ConHashInexistente_DebeRetornarNull()
     {
         // Act
-        var result = await _repository.GetByCardNumberAsync("9999999999999999");
+        var result = await _repository.GetByCardNumberHashAsync("NONEXISTENT_HASH");
 
         // Assert
         result.Should().BeNull();
