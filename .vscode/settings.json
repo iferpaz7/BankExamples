@@ -95,9 +95,7 @@
   // ========================================
   "dotnet.defaultSolution": "BankExamples.slnx",
   "omnisharp.enableEditorConfigSupport": true,
-  "omnisharp.enableImportCompletion": true,
   "omnisharp.enableRoslynAnalyzers": true,
-  "omnisharp.organizeImportsOnFormat": true,
   // ========================================
   // Git Configuration
   // ========================================
@@ -137,5 +135,7 @@
     "slnx",
     "SQLite",
     "xUnit"
-  ]
+  ],
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+  "dotnet.formatting.organizeImportsOnFormat": true
 }
