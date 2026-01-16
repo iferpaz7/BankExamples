@@ -1,91 +1,91 @@
-# ?? Credit Card CRUD API
+# 📋 Credit Card CRUD API
 
-API REST completa para gesti�n de tarjetas de cr�dito implementada con **.NET 9**, **Clean Architecture**, **Domain-Driven Design (DDD)**, **Entity Framework Core**, **SQLite**, **Dapper** y preparada para **RabbitMQ**.
+API REST completa para gestión de tarjetas de crédito implementada con **.NET 9**, **Clean Architecture**, **Domain-Driven Design (DDD)**, **Entity Framework Core**, **SQLite**, **Dapper** y preparada para **RabbitMQ**.
 
 ---
 
-## ??? **Arquitectura del Proyecto**
+## 🏗️ **Arquitectura del Proyecto**
 
 ```
 BankExamples/
-??? src/
-?   ??? CreditCard.Domain/           # Capa de Dominio (DDD)
-?   ?   ??? Entities/                # Entidades con l�gica de negocio
-?   ?   ??? Repositories/            # Interfaces de repositorios
-?   ?   ??? Events/                  # Eventos de dominio
-?   ?
-?   ??? CreditCard.Application/      # Capa de Aplicaci�n
-?   ?   ??? DTOs/                    # Data Transfer Objects
-?   ?   ??? Interfaces/              # Contratos de servicios
-?   ?   ??? Services/                # L�gica de aplicaci�n + Reportes
-?   ?
-?   ??? CreditCard.Infrastructure/   # Capa de Infraestructura
-?   ?   ??? Persistence/             # EF Core + UoW + Dapper
-?   ?   ?   ??? Configurations/      # Configuraciones de entidades
-?   ?   ?   ??? Repositories/        # Implementaci�n de repositorios
-?   ?   ?   ??? CreditCardDbContext.cs
-?   ?   ??? Messaging/               # RabbitMQ (preparado)
-?   ?
-?   ??? CreditCard.Api/              # Capa de Presentaci�n
-?       ??? Endpoints/               # Minimal APIs
-?       ??? Program.cs
+🏗️ src/
+│   🏗️ CreditCard.Domain/           # Capa de Dominio (DDD)
+│   │   🏗️ Entities/                # Entidades con lógica de negocio
+│   │   🏗️ Repositories/            # Interfaces de repositorios
+│   │   🏗️ Events/                  # Eventos de dominio
+│   │
+│   🏗️ CreditCard.Application/      # Capa de Aplicación
+│   │   🏗️ DTOs/                    # Data Transfer Objects
+│   │   🏗️ Interfaces/              # Contratos de servicios
+│   │   🏗️ Services/                # Lógica de aplicación + Reportes
+│   │
+│   🏗️ CreditCard.Infrastructure/   # Capa de Infraestructura
+│   │   🏗️ Persistence/             # EF Core + UoW + Dapper
+│   │   │   🏗️ Configurations/      # Configuraciones de entidades
+│   │   │   🏗️ Repositories/        # Implementación de repositorios
+│   │   │   🏗️ CreditCardDbContext.cs
+│   │   🏗️ Messaging/               # RabbitMQ (preparado)
+│   │
+│   🏗️ CreditCard.Api/              # Capa de Presentación
+│       🏗️ Endpoints/               # Minimal APIs
+│       🏗️ Program.cs
 ```
 
-**?? Principios de Clean Architecture Respetados:**
-- ? Domain no depende de nadie
-- ? Application solo depende de Domain
-- ? Infrastructure solo depende de Domain
-- ? API depende de Application e Infrastructure (inyecci�n de dependencias)
-- ? **NO hay referencias circulares entre capas**
+**✅ Principios de Clean Architecture Respetados:**
+- │ Domain no depende de nadie
+- │ Application solo depende de Domain
+- │ Infrastructure solo depende de Domain
+- │ API depende de Application e Infrastructure (inyección de dependencias)
+- │ **NO hay referencias circulares entre capas**
 
 ---
 
-## ?? **Tecnolog�as Implementadas**
+## 🛠️ **Tecnologóas Implementadas**
 
-| Tecnolog�a | Prop�sito |
+| Tecnologóa | Propósito |
 |------------|-----------|
 | **.NET 9** | Framework principal |
 | **Entity Framework Core 9** | ORM para escrituras (CQRS Write) |
 | **SQLite** | Base de datos ligera |
 | **Dapper** | Consultas optimizadas para reportes (CQRS Read) |
-| **Unit of Work** | Gesti�n de transacciones |
-| **Repository Pattern** | Abstracci�n de acceso a datos |
-| **DDD** | L�gica de negocio en el dominio |
-| **Clean Architecture** | Separaci�n de responsabilidades |
+| **Unit of Work** | Gestión de transacciones |
+| **Repository Pattern** | Abstracción de acceso a datos |
+| **DDD** | Lógica de negocio en el dominio |
+| **Clean Architecture** | Separación de responsabilidades |
 | **Minimal APIs** | Endpoints modernos y eficientes |
 
 ---
 
-## ?? **Funcionalidades Implementadas**
+## ✅ **Funcionalidades Implementadas**
 
 ### **CRUD Completo**
-- ? Crear tarjeta de cr�dito
-- ? Obtener todas las tarjetas
-- ? Obtener tarjeta por ID
-- ? Actualizar tarjeta
-- ? Eliminar tarjeta
+- │ Crear tarjeta de crédito
+- │ Obtener todas las tarjetas
+- │ Obtener tarjeta por ID
+- │ Actualizar tarjeta
+- │ Eliminar tarjeta
 
 ### **Operaciones de Negocio**
-- ? Realizar cargo a la tarjeta
-- ? Realizar pago a la tarjeta
-- ? Activar/Desactivar tarjeta
+- │ Realizar cargo a la tarjeta
+- │ Realizar pago a la tarjeta
+- │ Activar/Desactivar tarjeta
 
 ### **Reportes con Dapper**
-- ? Reporte general de tarjetas con uso de cr�dito
-- ? Reporte de tarjeta por ID
-- ? Tarjetas activas
-- ? Tarjetas con alto uso de cr�dito
+- │ Reporte general de tarjetas con uso de crédito
+- │ Reporte de tarjeta por ID
+- │ Tarjetas activas
+- │ Tarjetas con alto uso de crédito
 
 ---
 
-## ?? **Patrones Implementados**
+## ✅ **Patrones Implementados**
 
 ### **Domain-Driven Design (DDD)**
 ```csharp
-// Entidad con l�gica de negocio
+// Entidad con lógica de negocio
 public class CreditCardEntity
 {
-    // Constructor privado para encapsulaci�n
+    // Constructor privado para encapsulación
     private CreditCardEntity() { }
 
     // Factory Method
@@ -114,7 +114,7 @@ public interface IUnitOfWork : IDisposable
 
 ---
 
-## ?? **Configuraci�n y Ejecuci�n**
+## ✅ **Configuración y Ejecución**
 
 ### **1. Restaurar paquetes**
 ```bash
@@ -126,7 +126,7 @@ dotnet restore
 dotnet build
 ```
 
-### **3. Ejecutar la aplicaci�n**
+### **3. Ejecutar la aplicación**
 ```bash
 cd src/CreditCard.Api
 dotnet run
@@ -139,10 +139,10 @@ https://localhost:5001/swagger
 
 ---
 
-## ?? **Endpoints Disponibles**
+## ✅ **Endpoints Disponibles**
 
-### **Gesti�n de Tarjetas**
-| M�todo | Endpoint | Descripci�n |
+### **Gestión de Tarjetas**
+| Mótodo | Endpoint | Descripción |
 |--------|----------|-------------|
 | `POST` | `/api/creditcards` | Crear nueva tarjeta |
 | `GET` | `/api/creditcards` | Obtener todas las tarjetas |
@@ -151,7 +151,7 @@ https://localhost:5001/swagger
 | `DELETE` | `/api/creditcards/{id}` | Eliminar tarjeta |
 
 ### **Operaciones**
-| M�todo | Endpoint | Descripci�n |
+| Mótodo | Endpoint | Descripción |
 |--------|----------|-------------|
 | `POST` | `/api/creditcards/{id}/charge` | Realizar cargo |
 | `POST` | `/api/creditcards/{id}/payment` | Realizar pago |
@@ -159,23 +159,23 @@ https://localhost:5001/swagger
 | `POST` | `/api/creditcards/{id}/deactivate` | Desactivar tarjeta |
 
 ### **Reportes (Dapper)**
-| M�todo | Endpoint | Descripci�n |
+| Mótodo | Endpoint | Descripción |
 |--------|----------|-------------|
 | `GET` | `/api/reports/creditcards` | Reporte completo |
 | `GET` | `/api/reports/creditcards/{id}` | Reporte individual |
 | `GET` | `/api/reports/creditcards/active` | Tarjetas activas |
-| `GET` | `/api/reports/creditcards/high-usage?minPercentage=80` | Alto uso |
+| `GET` | `/api/reports/creditcards/high-usage│minPercentage=80` | Alto uso |
 
 ---
 
-## ?? **Ejemplos de Uso**
+## ✅ **Ejemplos de Uso**
 
 ### **Crear Tarjeta**
 ```json
 POST /api/creditcards
 {
   "cardNumber": "4532015112830366",
-  "cardHolderName": "Juan P�rez",
+  "cardHolderName": "Juan Pórez",
   "expirationDate": "12/2027",
   "cvv": "123",
   "creditLimit": 10000.00,
@@ -201,14 +201,14 @@ POST /api/creditcards/{id}/payment
 
 ### **Obtener Reporte de Alto Uso**
 ```http
-GET /api/reports/creditcards/high-usage?minPercentage=70
+GET /api/reports/creditcards/high-usage│minPercentage=70
 ```
 
 ---
 
-## ?? **Integraci�n con RabbitMQ**
+## ✅ **Integración con RabbitMQ**
 
-El proyecto est� preparado para integraci�n con RabbitMQ:
+El proyecto está preparado para integración con RabbitMQ:
 
 ```csharp
 // Interface disponible
@@ -226,24 +226,24 @@ await _messagePublisher.PublishAsync(
 
 Para habilitar RabbitMQ real:
 1. Instalar `RabbitMQ.Client`
-2. Implementar `RabbitMqPublisher` con conexi�n real
+2. Implementar `RabbitMqPublisher` con conexión real
 3. Configurar en `appsettings.json`
 
 ---
 
-## ?? **Reglas de Negocio Implementadas**
+## ✅ **Reglas de Negocio Implementadas**
 
-- ? N�mero de tarjeta �nico
-- ? Validaci�n de n�mero de tarjeta (13-19 d�gitos)
-- ? CVV de 3-4 d�gitos
-- ? No permitir cargos mayores al cr�dito disponible
-- ? No permitir operaciones en tarjetas inactivas
-- ? C�lculo autom�tico de cr�dito disponible
-- ? Validaci�n de pagos que excedan el l�mite
+- │ Nómero de tarjeta ónico
+- │ Validación de nómero de tarjeta (13-19 dógitos)
+- │ CVV de 3-4 dógitos
+- │ No permitir cargos mayores al crédito disponible
+- │ No permitir operaciones en tarjetas inactivas
+- │ Cólculo automótico de crédito disponible
+- │ Validación de pagos que excedan el lómite
 
 ---
 
-## ?? **Base de Datos**
+## ✅ **Base de Datos**
 
 ### **Esquema SQLite**
 ```sql
@@ -264,7 +264,7 @@ CREATE TABLE CreditCards (
 
 ---
 
-## ?? **Pruebas**
+## ✅ **Pruebas**
 
 ### **Probar con cURL**
 ```bash
@@ -273,7 +273,7 @@ curl -X POST https://localhost:5001/api/creditcards \
   -H "Content-Type: application/json" \
   -d '{
     "cardNumber": "4532015112830366",
-    "cardHolderName": "Juan P�rez",
+    "cardHolderName": "Juan Pórez",
     "expirationDate": "12/2027",
     "cvv": "123",
     "creditLimit": 10000,
@@ -283,7 +283,7 @@ curl -X POST https://localhost:5001/api/creditcards \
 
 ---
 
-## ?? **Paquetes NuGet Utilizados**
+## ✅ **Paquetes NuGet Utilizados**
 
 ### **Infrastructure**
 - `Microsoft.EntityFrameworkCore` 9.0.0
@@ -301,22 +301,22 @@ curl -X POST https://localhost:5001/api/creditcards \
 
 ---
 
-## ?? **Pr�ximos Pasos (Extensiones Sugeridas)**
+## ✅ **Próximos Pasos (Extensiones Sugeridas)**
 
-1. **Autenticaci�n y Autorizaci�n**: JWT Tokens
+1. **Autenticación y Autorización**: JWT Tokens
 2. **Logging**: Serilog con Seq
-3. **Validaci�n**: FluentValidation
+3. **Validación**: FluentValidation
 4. **Mapeo**: AutoMapper
 5. **Testing**: xUnit + Moq
 6. **Cache**: Redis
 7. **MediatR**: Para CQRS completo
 8. **Health Checks**: Para monitoreo
-9. **Rate Limiting**: Protecci�n API
-10. **Docker**: Containerizaci�n
+9. **Rate Limiting**: Protección API
+10. **Docker**: Containerización
 
 ---
 
-## ????? **Desarrollado con**
+## 🏗️✅ **Desarrollado con**
 
 - Clean Architecture
 - Domain-Driven Design
@@ -328,4 +328,4 @@ curl -X POST https://localhost:5001/api/creditcards \
 
 ---
 
-�Disfruta del proyecto! ??
+óDisfruta del proyecto! 📋

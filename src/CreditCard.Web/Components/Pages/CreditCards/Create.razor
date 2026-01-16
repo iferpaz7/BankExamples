@@ -1,18 +1,18 @@
-@page "/creditcards/create"
+ï»¿@page "/creditcards/create"
 @using CreditCard.Web.Models
 @using CreditCard.Web.Services
 @inject CreditCardApiService ApiService
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-<PageTitle>Nueva Tarjeta de Crédito</PageTitle>
+<PageTitle>Nueva Tarjeta de CrÃ©dito</PageTitle>
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="bi bi-credit-card-2-front me-2"></i>Nueva Tarjeta de Crédito</h4>
+                    <h4 class="mb-0"><i class="bi bi-credit-card-2-front me-2"></i>Nueva Tarjeta de CrÃ©dito</h4>
                 </div>
                 <div class="card-body">
                     @if (!string.IsNullOrEmpty(errorMessage))
@@ -27,7 +27,7 @@
                         <ValidationSummary class="text-danger" />
 
                         <div class="mb-3">
-                            <label class="form-label">Número de Tarjeta</label>
+                            <label class="form-label">NÃºmero de Tarjeta</label>
                             <InputText @bind-Value="model.CardNumber" class="form-control" placeholder="4111111111111111" maxlength="19" />
                             <ValidationMessage For="() => model.CardNumber" class="text-danger" />
                         </div>
@@ -40,7 +40,7 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Fecha de Expiración</label>
+                                <label class="form-label">Fecha de ExpiraciÃ³n</label>
                                 <InputText @bind-Value="model.ExpirationDate" class="form-control" placeholder="MM/YY" maxlength="5" />
                                 <ValidationMessage For="() => model.ExpirationDate" class="text-danger" />
                             </div>
@@ -63,7 +63,7 @@
                                 <ValidationMessage For="() => model.CardType" class="text-danger" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Límite de Crédito</label>
+                                <label class="form-label">LÃ­mite de CrÃ©dito</label>
                                 <InputNumber @bind-Value="model.CreditLimit" class="form-control" />
                                 <ValidationMessage For="() => model.CreditLimit" class="text-danger" />
                             </div>

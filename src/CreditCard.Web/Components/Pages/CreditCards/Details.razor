@@ -1,4 +1,4 @@
-@page "/creditcards/{Id:guid}"
+锘緻page "/creditcards/{Id:guid}"
 @using CreditCard.Web.Models
 @using CreditCard.Web.Services
 @inject CreditCardApiService ApiService
@@ -71,12 +71,12 @@
                     </div>
                 </div>
 
-                <!-- Informaci髇 de Cr閐ito -->
+                <!-- Informaci贸n de Cr茅dito -->
                 <div class="row mb-4">
                     <div class="col-md-4">
                         <div class="card text-center h-100">
                             <div class="card-body">
-                                <h6 class="text-muted">L韒ite de Cr閐ito</h6>
+                                <h6 class="text-muted">L铆mite de Cr茅dito</h6>
                                 <h3 class="text-primary">@card.CreditLimit.ToString("C")</h3>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                     <div class="col-md-4">
                         <div class="card text-center h-100">
                             <div class="card-body">
-                                <h6 class="text-muted">Cr閐ito Disponible</h6>
+                                <h6 class="text-muted">Cr茅dito Disponible</h6>
                                 <h3 class="text-success">@card.AvailableCredit.ToString("C")</h3>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Uso del Cr閐ito</span>
+                            <span>Uso del Cr茅dito</span>
                             <span class="fw-bold">@card.UsagePercentage.ToString("F1")%</span>
                         </div>
                         <div class="progress" style="height: 25px;">
@@ -119,10 +119,10 @@
                     </div>
                 </div>
 
-                <!-- Informaci髇 adicional -->
+                <!-- Informaci贸n adicional -->
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Informaci髇 de la Tarjeta</h5>
+                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Informaci贸n de la Tarjeta</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -131,7 +131,7 @@
                                 <p><strong>Creada:</strong> @card.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>趌tima actualizaci髇:</strong> @(card.UpdatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")</p>
+                                <p><strong>脷ltima actualizaci贸n:</strong> @(card.UpdatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")</p>
                                 <p><strong>Estado:</strong> 
                                     <span class="badge @(card.IsActive ? "bg-success" : "bg-danger")">
                                         @(card.IsActive ? "Activa" : "Inactiva")

@@ -1,11 +1,11 @@
-@page "/creditcards/edit/{Id:guid}"
+ï»¿@page "/creditcards/edit/{Id:guid}"
 @using CreditCard.Web.Models
 @using CreditCard.Web.Services
 @inject CreditCardApiService ApiService
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-<PageTitle>Editar Tarjeta de Crédito</PageTitle>
+<PageTitle>Editar Tarjeta de CrÃ©dito</PageTitle>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -40,7 +40,7 @@
                         }
 
                         <div class="mb-3">
-                            <label class="form-label text-muted">Número de Tarjeta</label>
+                            <label class="form-label text-muted">NÃºmero de Tarjeta</label>
                             <p class="form-control-plaintext font-monospace">@card.MaskedCardNumber</p>
                         </div>
 
@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Límite de Crédito</label>
+                                <label class="form-label">LÃ­mite de CrÃ©dito</label>
                                 <InputNumber @bind-Value="model.CreditLimit" class="form-control" />
                                 <ValidationMessage For="() => model.CreditLimit" class="text-danger" />
                                 @if (card.UsedCredit > 0)

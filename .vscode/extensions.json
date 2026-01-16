@@ -1,0 +1,28 @@
+{
+  "recommendations": [
+    // C# Development
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.vscodeintellicode-csharp",
+    // Testing
+    "formulahendry.dotnet-test-explorer",
+    // Git
+    "eamodio.gitlens",
+    // Markdown
+    "yzhang.markdown-all-in-one",
+    "DavidAnson.vscode-markdownlint",
+    // Code Quality
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-spanish",
+    // Formatting
+    "esbenp.prettier-vscode",
+    "EditorConfig.EditorConfig",
+    // REST API Testing
+    "humao.rest-client",
+    // Database
+    "mtxr.sqltools",
+    // Productivity
+    "usernamehw.errorlens",
+    "wayou.vscode-todo-highlight"
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  // ========================================
+  // FILE ENCODING - Prevent Corruption
+  // ========================================
+  "files.encoding": "utf8",
+  "files.autoGuessEncoding": false,
+  "files.eol": "\n",
+  // ========================================
+  // C# / .NET Configuration
+  // ========================================
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "files.encoding": "utf8"
+  },
+  // ========================================
+  // JSON Configuration
+  // ========================================
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "files.encoding": "utf8"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  // ========================================
+  // Markdown Configuration
+  // ========================================
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    },
+    "files.encoding": "utf8",
+    "files.trimTrailingWhitespace": false
+  },
+  // ========================================
+  // PowerShell Configuration
+  // ========================================
+  "[powershell]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "files.encoding": "utf8"
+  },
+  // ========================================
+  // General Editor Settings
+  // ========================================
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.trimAutoWhitespace": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  // ========================================
+  // Files & Folders
+  // ========================================
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true,
+    "**/node_modules": true,
+    "**/*.suo": true,
+    "**/*.user": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/node_modules": true,
+    "**/.vs": true,
+    "**/dist": true,
+    "**/*.min.js": true,
+    "**/*.min.css": true
+  },
+  // ========================================
+  // .NET / OmniSharp Configuration
+  // ========================================
+  "dotnet.defaultSolution": "BankExamples.slnx",
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableImportCompletion": true,
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.organizeImportsOnFormat": true,
+  // ========================================
+  // Git Configuration
+  // ========================================
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  // ========================================
+  // Terminal Configuration
+  // ========================================
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.encoding": "utf8",
+  // ========================================
+  // Testing Configuration
+  // ========================================
+  "dotnet-test-explorer.testProjectPath": "tests/**/*.csproj",
+  "dotnet-test-explorer.autoWatch": false,
+  // ========================================
+  // Prettier Configuration (if installed)
+  // ========================================
+  "prettier.enable": true,
+  "prettier.endOfLine": "lf",
+  // ========================================
+  // Spell Checker (if installed)
+  // ========================================
+  "cSpell.language": "en,es",
+  "cSpell.words": [
+    "appsettings",
+    "Blazor",
+    "csproj",
+    "Dapper",
+    "dotnet",
+    "DTOs",
+    "NBomber",
+    "OmniSharp",
+    "Postman",
+    "RabbitMQ",
+    "slnx",
+    "SQLite",
+    "xUnit"
+  ]
+}

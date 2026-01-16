@@ -1,4 +1,4 @@
-@page "/loadtests"
+Ôªø@page "/loadtests"
 @using CreditCard.Web.Models
 @using CreditCard.Web.Services
 @inject LoadTestService LoadTestService
@@ -12,42 +12,42 @@
     <div class="row mb-4">
         <div class="col-12">
             <h2><i class="bi bi-speedometer2 me-2"></i>Pruebas de Carga</h2>
-            <p class="text-muted">Ejecuta pruebas de rendimiento para la API de tarjetas de crÈdito</p>
+            <p class="text-muted">Ejecuta pruebas de rendimiento para la API de tarjetas de Cr√©dito</p>
         </div>
     </div>
 
     <div class="row">
-        <!-- Panel de ConfiguraciÛn -->
+        <!-- Panel de Configuraci√≥n -->
         <div class="col-md-4">
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-primary text-white">
-                    <i class="bi bi-gear me-2"></i>ConfiguraciÛn
+                    <i class="bi bi-gear me-2"></i>Configuraci√≥n
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Tipo de Prueba</label>
                         <select class="form-select" @bind="_config.TestType" disabled="@_isRunning">
-                            <option value="smoke">?? Smoke Test (B·sico)</option>
-                            <option value="load">?? Load Test (Carga Normal)</option>
-                            <option value="stress">?? Stress Test (EstrÈs)</option>
-                            <option value="spike">? Spike Test (Picos)</option>
-                            <option value="crud">?? CRUD Flow (Flujo Completo)</option>
-                            <option value="reports">?? Reports Test (Reportes)</option>
+                            <option value="smoke">üîç Smoke Test (B√°sico)</option>
+                            <option value="load">üìä Load Test (Carga Normal)</option>
+                            <option value="stress">üí• Stress Test (Estr√©s)</option>
+                            <option value="spike">‚ö° Spike Test (Picos)</option>
+                            <option value="crud">üîÑ CRUD Flow (Flujo Completo)</option>
+                            <option value="reports">üìà Reports Test (Reportes)</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">DuraciÛn (segundos)</label>
+                        <label class="form-label fw-bold">Duraci√≥n (segundos)</label>
                         <input type="number" class="form-control" @bind="_config.DurationSeconds" 
                                min="10" max="600" disabled="@_isRunning" />
-                        <small class="text-muted">MÌnimo: 10s, M·ximo: 600s</small>
+                        <small class="text-muted">M√≠nimo: 10s, M√°ximo: 600s</small>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Requests por Segundo</label>
                         <input type="number" class="form-control" @bind="_config.RequestsPerSecond" 
                                min="1" max="100" disabled="@_isRunning" />
-                        <small class="text-muted">MÌnimo: 1, M·ximo: 100</small>
+                        <small class="text-muted">M√≠nimo: 1, M√°ximo: 100</small>
                     </div>
 
                     <hr />
@@ -72,21 +72,21 @@
             <!-- Presets de Pruebas -->
             <div class="card shadow-sm">
                 <div class="card-header bg-secondary text-white">
-                    <i class="bi bi-lightning me-2"></i>Pruebas R·pidas
+                    <i class="bi bi-lightning me-2"></i>Pruebas RR√°pidas
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <button class="btn btn-outline-primary btn-sm" @onclick="SetSmokePreset" disabled="@_isRunning">
-                            ?? Smoke (30s, 5 RPS)
+                            üîç Smoke (30s, 5 RPS)
                         </button>
                         <button class="btn btn-outline-primary btn-sm" @onclick="SetLoadPreset" disabled="@_isRunning">
-                            ?? Load (60s, 20 RPS)
+                            üìä Load (60s, 20 RPS)
                         </button>
                         <button class="btn btn-outline-warning btn-sm" @onclick="SetStressPreset" disabled="@_isRunning">
-                            ?? Stress (60s, 50 RPS)
+                            üí• Stress (60s, 50 RPS)
                         </button>
                         <button class="btn btn-outline-danger btn-sm" @onclick="SetSpikePreset" disabled="@_isRunning">
-                            ? Spike (60s, 100 RPS)
+                            ‚ö° Spike (60s, 100 RPS)
                         </button>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                 <div class="card shadow-sm mb-4">
                     <div class="card-header @(_isRunning ? "bg-warning" : "bg-success") text-white">
                         <i class="bi @(_isRunning ? "bi-hourglass-split" : "bi-check-circle") me-2"></i>
-                        @(_isRunning ? "Prueba en EjecuciÛn" : "Prueba Completada")
+                        @(_isRunning ? "Prueba en Ejecuci√≥n" : "Prueba Completada")
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -153,7 +153,7 @@
                 </div>
             }
 
-            <!-- ⁄ltimo Resultado -->
+            <!-- √öltimo Resultado -->
             @if (_lastResult != null)
             {
                 <div class="card shadow-sm mb-4">
@@ -167,7 +167,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6 class="text-muted">MÈtricas Generales</h6>
+                                <h6 class="text-muted">MM√©tricas Generales</h6>
                                 <table class="table table-sm">
                                     <tr>
                                         <td>Total Requests:</td>
@@ -217,7 +217,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>DuraciÛn:</td>
+                                        <td>Duraci√≥n:</td>
                                         <td class="fw-bold">@_lastResult.Duration.ToString(@"mm\:ss")</td>
                                     </tr>
                                 </table>
@@ -227,15 +227,15 @@
                         @if (_lastResult.EndpointMetrics.Count != 0)
                         {
                             <hr />
-                            <h6 class="text-muted">MÈtricas por Endpoint</h6>
+                            <h6 class="text-muted">MM√©tricas por Endpoint</h6>
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>MÈtodo</th>
+                                            <th>M√©todo</th>
                                             <th>Endpoint</th>
                                             <th>Requests</th>
-                                            <th>…xitos</th>
+                                            <th>√âxitos</th>
                                             <th>Fallos</th>
                                             <th>Avg (ms)</th>
                                             <th>Min (ms)</th>
@@ -305,7 +305,7 @@
                                     <tr>
                                         <th>Fecha/Hora</th>
                                         <th>Tipo</th>
-                                        <th>DuraciÛn</th>
+                                        <th>Duraci√≥n</th>
                                         <th>Requests</th>
                                         <th>RPS</th>
                                         <th>Error %</th>

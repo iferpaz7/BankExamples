@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+ï»¿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net.Http.Json;
 using CreditCard.Web.Models;
@@ -32,7 +32,7 @@ public class LoadTestService
     public async Task<LoadTestResultModel> RunTestAsync(LoadTestConfiguration config)
     {
         if (CurrentStatus.IsRunning)
-            throw new InvalidOperationException("Ya hay una prueba en ejecución");
+            throw new InvalidOperationException("Ya hay una prueba en ejecuciÃ³n");
 
         _cancellationTokenSource = new CancellationTokenSource();
         var token = _cancellationTokenSource.Token;
@@ -62,13 +62,13 @@ public class LoadTestService
             var duration = TimeSpan.FromSeconds(config.DurationSeconds);
             var endTime = DateTime.Now.Add(duration);
 
-            AddLog($"Duración: {config.DurationSeconds}s, RPS objetivo: {config.RequestsPerSecond}");
+            AddLog($"DuraciÃ³n: {config.DurationSeconds}s, RPS objetivo: {config.RequestsPerSecond}");
 
             while (DateTime.Now < endTime && !token.IsCancellationRequested)
             {
                 var batchStart = DateTime.Now;
                 
-                // Crear tareas para el número de requests por segundo
+                // Crear tareas para el nNÃºmero de requests por segundo
                 for (int i = 0; i < config.RequestsPerSecond && !token.IsCancellationRequested; i++)
                 {
                     var task = ExecuteRequestAsync(config.TestType, metrics, token);
@@ -130,7 +130,7 @@ public class LoadTestService
 
         result.Passed = result.ErrorRate < 5 && result.P95ResponseTimeMs < 1000;
 
-        // Agrupar métricas por endpoint
+        // Agrupar mMÃ©tricas por endpoint
         result.EndpointMetrics = metrics
             .GroupBy(m => new { m.Endpoint, m.Method })
             .Select(g => new EndpointMetric
@@ -150,7 +150,7 @@ public class LoadTestService
         CurrentStatus.Progress = 100;
         CurrentStatus.Logs = _logs.ToList();
         
-        AddLog($"Prueba completada. Total: {result.TotalRequests}, Éxitos: {result.SuccessfulRequests}, Fallos: {result.FailedRequests}");
+        AddLog($"Prueba completada. Total: {result.TotalRequests}, Ã‰xitos: {result.SuccessfulRequests}, Fallos: {result.FailedRequests}");
         AddLog($"RPS promedio: {result.RequestsPerSecond:F2}, P95: {result.P95ResponseTimeMs:F2}ms");
         
         TestHistory.Insert(0, result);
@@ -160,7 +160,7 @@ public class LoadTestService
     }
 
     /// <summary>
-    /// Cancela la prueba en ejecución
+    /// Cancela la prueba en ejecuciÃ³n
     /// </summary>
     public void CancelTest()
     {

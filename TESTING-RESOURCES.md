@@ -1,51 +1,51 @@
-# ?? Recursos de Testing - Credit Card API
+# 📋 Recursos de Testing - Credit Card API
 
-## ?? Archivos de Testing Disponibles
+## 📋 Archivos de Testing Disponibles
 
-### **1. CreditCard.Api.http** ? (Visual Studio)
-?? `src/CreditCard.Api/CreditCard.Api.http`
+### **1. CreditCard.Api.http** ✓ (Visual Studio)
+📋 `src/CreditCard.Api/CreditCard.Api.http`
 
-**Caracter�sticas:**
-- ? 16 endpoints pre-configurados
-- ? Datos de prueba incluidos
-- ? Casos de error documentados
-- ? Funciona directamente en Visual Studio 2022+
+**Características:**
+- ✓ 16 endpoints pre-configurados
+- ✓ Datos de prueba incluidos
+- ✓ Casos de error documentados
+- ✓ Funciona directamente en Visual Studio 2022+
 
-**C�mo usar:**
+**Cómo usar:**
 1. Abre el archivo en Visual Studio
-2. Clic derecho en cualquier petici�n
+2. Clic derecho en cualquier petición
 3. Selecciona "Send Request"
 4. Copia el `id` de la respuesta para las siguientes peticiones
 
 ---
 
-### **2. CreditCard.Api.postman_collection.json** ? (Postman)
-?? `CreditCard.Api.postman_collection.json`
+### **2. CreditCard.Api.postman_collection.json** ✓ (Postman)
+📋 `CreditCard.Api.postman_collection.json`
 
-**Caracter�sticas:**
-- ? Colecci�n completa con 30+ peticiones
-- ? Scripts autom�ticos que guardan variables
-- ? Organizado por categor�as
-- ? Tests de error incluidos
+**Características:**
+- ✓ Colección completa con 30+ peticiones
+- ✓ Scripts automóticos que guardan variables
+- ✓ Organizado por categoróas
+- ✓ Tests de error incluidos
 
-**C�mo importar:**
+**Cómo importar:**
 1. Abre Postman
-2. File ? Import
+2. File │ Import
 3. Selecciona `CreditCard.Api.postman_collection.json`
-4. La colecci�n aparecer� en tu sidebar
+4. La colección aparecerá en tu sidebar
 
 ---
 
-### **3. test-api.ps1** ? (PowerShell Script)
-?? `test-api.ps1`
+### **3. test-api.ps1** ✓ (PowerShell Script)
+📋 `test-api.ps1`
 
-**Caracter�sticas:**
-- ? Testing automatizado completo
-- ? Colores en la consola para mejor visualizaci�n
-- ? Prueba todos los endpoints en secuencia
-- ? Incluye timing entre peticiones
+**Características:**
+- ✓ Testing automatizado completo
+- ✓ Colores en la consola para mejor visualización
+- ✓ Prueba todos los endpoints en secuencia
+- ✓ Incluye timing entre peticiones
 
-**C�mo ejecutar:**
+**Cómo ejecutar:**
 ```powershell
 # En PowerShell
 .\test-api.ps1
@@ -57,21 +57,21 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 ---
 
-### **4. TESTING-GUIDE.md** ?? (Documentaci�n)
-?? `TESTING-GUIDE.md`
+### **4. TESTING-GUIDE.md** 📋 (Documentación)
+📋 `TESTING-GUIDE.md`
 
-**Caracter�sticas:**
-- ? Gu�a paso a paso completa
-- ? Ejemplos con cURL
-- ? Casos de error explicados
-- ? N�meros de tarjeta de prueba
-- ? Escenarios completos de testing
+**Características:**
+- ✓ Guía paso a paso completa
+- ✓ Ejemplos con cURL
+- ✓ Casos de error explicados
+- ✓ Nómeros de tarjeta de prueba
+- ✓ Escenarios completos de testing
 
 ---
 
-## ?? Inicio R�pido
+## 📋 Inicio Rópido
 
-### **Opci�n 1: Swagger UI (M�s F�cil)**
+### **Opción 1: Swagger UI (Mós Fócil)**
 ```bash
 # 1. Iniciar API
 cd src/CreditCard.Api
@@ -81,7 +81,7 @@ dotnet run
 http://localhost:5282/swagger
 ```
 
-### **Opci�n 2: Visual Studio HTTP File**
+### **Opción 2: Visual Studio HTTP File**
 ```bash
 # 1. Iniciar API
 cd src/CreditCard.Api
@@ -92,7 +92,7 @@ dotnet run
 # Click en "Send Request" sobre cada endpoint
 ```
 
-### **Opci�n 3: Script Autom�tico**
+### **Opción 3: Script Automótico**
 ```powershell
 # 1. Iniciar API
 cd src/CreditCard.Api
@@ -104,7 +104,7 @@ dotnet run
 
 ---
 
-## ?? Endpoints Disponibles
+## 📋 Endpoints Disponibles
 
 ### **CRUD Operations (8 endpoints)**
 - `POST /api/creditcards` - Crear tarjeta
@@ -121,17 +121,17 @@ dotnet run
 - `GET /api/reports/creditcards` - Reporte completo
 - `GET /api/reports/creditcards/{id}` - Reporte individual
 - `GET /api/reports/creditcards/active` - Tarjetas activas
-- `GET /api/reports/creditcards/high-usage?minPercentage=X` - Alto uso
+- `GET /api/reports/creditcards/high-usage│minPercentage=X` - Alto uso
 
 ---
 
-## ?? Datos de Prueba R�pidos
+## 📋 Datos de Prueba Rópidos
 
 ### **Tarjeta Visa**
 ```json
 {
   "cardNumber": "4532015112830366",
-  "cardHolderName": "Juan P�rez",
+  "cardHolderName": "Juan Pórez",
   "expirationDate": "12/2027",
   "cvv": "123",
   "creditLimit": 10000.00,
@@ -143,7 +143,7 @@ dotnet run
 ```json
 {
   "cardNumber": "5425233430109903",
-  "cardHolderName": "Mar�a Garc�a",
+  "cardHolderName": "Maróa Garcóa",
   "expirationDate": "06/2026",
   "cvv": "456",
   "creditLimit": 15000.00,
@@ -167,33 +167,33 @@ dotnet run
 
 ---
 
-## ? Checklist de Testing
+## │ Checklist de Testing
 
-- [ ] ? Crear tarjeta Visa
-- [ ] ? Crear tarjeta MasterCard
-- [ ] ? Crear tarjeta American Express
-- [ ] ? Listar todas las tarjetas
-- [ ] ? Obtener tarjeta por ID
-- [ ] ? Actualizar nombre de titular
-- [ ] ? Actualizar l�mite de cr�dito
-- [ ] ? Realizar cargo
-- [ ] ? Realizar pago
-- [ ] ? Desactivar tarjeta
-- [ ] ? Activar tarjeta
-- [ ] ? Eliminar tarjeta
-- [ ] ? Reporte completo (Dapper)
-- [ ] ? Reporte individual (Dapper)
-- [ ] ? Tarjetas activas (Dapper)
-- [ ] ? Alto uso de cr�dito (Dapper)
-- [ ] ?? Error: N�mero duplicado
-- [ ] ?? Error: CVV inv�lido
-- [ ] ?? Error: N�mero de tarjeta inv�lido
-- [ ] ?? Error: Cargo excesivo
-- [ ] ?? Error: Operaci�n en tarjeta inactiva
+- [ ] │ Crear tarjeta Visa
+- [ ] │ Crear tarjeta MasterCard
+- [ ] │ Crear tarjeta American Express
+- [ ] │ Listar todas las tarjetas
+- [ ] │ Obtener tarjeta por ID
+- [ ] │ Actualizar nombre de titular
+- [ ] │ Actualizar lómite de Crédito
+- [ ] │ Realizar cargo
+- [ ] │ Realizar pago
+- [ ] │ Desactivar tarjeta
+- [ ] │ Activar tarjeta
+- [ ] │ Eliminar tarjeta
+- [ ] │ Reporte completo (Dapper)
+- [ ] │ Reporte individual (Dapper)
+- [ ] │ Tarjetas activas (Dapper)
+- [ ] │ Alto uso de Crédito (Dapper)
+- [ ] 📋 Error: Nómero duplicado
+- [ ] 📋 Error: CVV invólido
+- [ ] 📋 Error: Nómero de tarjeta invólido
+- [ ] 📋 Error: Cargo excesivo
+- [ ] 📋 Error: Operación en tarjeta inactiva
 
 ---
 
-## ?? URLs Importantes
+## 📋 URLs Importantes
 
 | Recurso | URL |
 |---------|-----|
@@ -203,7 +203,7 @@ dotnet run
 
 ---
 
-## ?? Variables de Entorno
+## 📋 Variables de Entorno
 
 ```bash
 # HTTP File (Visual Studio)
@@ -212,7 +212,7 @@ dotnet run
 
 # Postman
 baseUrl = http://localhost:5282
-cardId = {se guarda autom�ticamente}
+cardId = {se guarda automóticamente}
 
 # PowerShell
 $baseUrl = "http://localhost:5282"
@@ -221,14 +221,14 @@ $cardId = "{obtenido de respuestas}"
 
 ---
 
-## ?? Respuestas Esperadas
+## 📋 Respuestas Esperadas
 
 ### **201 Created (POST /api/creditcards)**
 ```json
 {
   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "cardNumber": "4532015112830366",
-  "cardHolderName": "JUAN P�REZ",
+  "cardHolderName": "JUAN PóREZ",
   "expirationDate": "12/2027",
   "cardType": "Visa",
   "creditLimit": 10000.00,
@@ -245,7 +245,7 @@ $cardId = "{obtenido de respuestas}"
   {
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "cardNumber": "4532015112830366",
-    "cardHolderName": "JUAN P�REZ",
+    "cardHolderName": "JUAN PóREZ",
     "expirationDate": "12/2027",
     "cardType": "Visa",
     "creditLimit": 10000.00,
@@ -263,7 +263,7 @@ $cardId = "{obtenido de respuestas}"
   {
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "cardNumber": "4532015112830366",
-    "cardHolderName": "JUAN P�REZ",
+    "cardHolderName": "JUAN PóREZ",
     "cardType": "Visa",
     "creditLimit": 10000.00,
     "availableCredit": 9500.00,
@@ -277,7 +277,7 @@ $cardId = "{obtenido de respuestas}"
 ### **400 Bad Request (Error)**
 ```json
 {
-  "error": "Ya existe una tarjeta con este n�mero"
+  "error": "Ya existe una tarjeta con este nómero"
 }
 ```
 
@@ -293,9 +293,9 @@ Sin contenido en el body.
 
 ---
 
-## ??? Herramientas Recomendadas
+## 🏗️ Herramientas Recomendadas
 
-| Herramienta | Prop�sito | Link |
+| Herramienta | Propósito | Link |
 |-------------|-----------|------|
 | **Visual Studio 2022** | Ejecutar .http files | https://visualstudio.com |
 | **Postman** | API Testing | https://postman.com |
@@ -305,24 +305,24 @@ Sin contenido en el body.
 
 ---
 
-## ?? Soluci�n de Problemas
+## 📋 Solución de Problemas
 
 ### **Error: "Connection refused"**
 ```bash
-# Verifica que la API est� corriendo
+# Verifica que la API está corriendo
 cd src/CreditCard.Api
 dotnet run
 ```
 
 ### **Error: "Cannot execute script"**
 ```powershell
-# PowerShell: Cambiar pol�tica de ejecuci�n
+# PowerShell: Cambiar polótica de ejecución
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 ### **Error: "Database is locked"**
 ```bash
-# Cierra SQLite Browser si est� abierto
+# Cierra SQLite Browser si está abierto
 # Reinicia la API
 ```
 
@@ -336,18 +336,18 @@ taskkill /PID {PID} /F
 
 ---
 
-## ?? Documentaci�n Adicional
+## 📋 Documentación Adicional
 
-- ?? [DOCUMENTATION.md](DOCUMENTATION.md) - Documentaci�n completa de la API
-- ??? [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitectura Clean + DDD
-- ?? [TESTING-GUIDE.md](TESTING-GUIDE.md) - Gu�a detallada de testing
-- ?? [README.md](README.md) - Informaci�n general del proyecto
+- 📋 [DOCUMENTATION.md](DOCUMENTATION.md) - Documentación completa de la API
+- 🏗️ [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitectura Clean + DDD
+- 📋 [TESTING-GUIDE.md](TESTING-GUIDE.md) - Guía detallada de testing
+- 📋 [README.md](README.md) - Información general del proyecto
 
 ---
 
-## ?? Ejemplos de Uso por Caso
+## 📋 Ejemplos de Uso por Caso
 
-### **Caso 1: Testing R�pido en 2 Minutos**
+### **Caso 1: Testing Rópido en 2 Minutos**
 1. `dotnet run` en `src/CreditCard.Api`
 2. Abrir http://localhost:5282/swagger
 3. Probar "POST /api/creditcards"
@@ -357,15 +357,15 @@ taskkill /PID {PID} /F
 ### **Caso 2: Testing Exhaustivo con Script**
 1. `dotnet run` en `src/CreditCard.Api`
 2. En otra terminal: `.\test-api.ps1`
-3. Observar todos los tests ejecutarse autom�ticamente
+3. Observar todos los tests ejecutarse automóticamente
 
 ### **Caso 3: Testing Manual con Postman**
 1. `dotnet run` en `src/CreditCard.Api`
 2. Importar `CreditCard.Api.postman_collection.json`
 3. Ejecutar "Create Visa Card"
-4. El `cardId` se guarda autom�ticamente
+4. El `cardId` se guarda automóticamente
 5. Ejecutar el resto de peticiones en orden
 
 ---
 
-�Todo listo para probar! ??
+óTodo listo para probar! 📋

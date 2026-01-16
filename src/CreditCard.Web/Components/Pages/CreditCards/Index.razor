@@ -1,15 +1,15 @@
-@page "/creditcards"
+Ôªø@page "/creditcards"
 @using CreditCard.Web.Models
 @using CreditCard.Web.Services
 @inject CreditCardApiService ApiService
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-<PageTitle>Tarjetas de CrÈdito</PageTitle>
+<PageTitle>Tarjetas de Cr√©dito</PageTitle>
 
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1><i class="bi bi-credit-card me-2"></i>Tarjetas de CrÈdito</h1>
+        <h1><i class="bi bi-credit-card me-2"></i>Tarjetas de Cr√©dito</h1>
         <a href="/creditcards/create" class="btn btn-primary">
             <i class="bi bi-plus-lg me-1"></i>Nueva Tarjeta
         </a>
@@ -68,7 +68,7 @@
                             
                             <div class="row text-center mb-3">
                                 <div class="col-6">
-                                    <small class="text-muted d-block">LÌmite</small>
+                                    <small class="text-muted d-block">L√≠mite</small>
                                     <strong class="text-primary">@card.CreditLimit.ToString("C")</strong>
                                 </div>
                                 <div class="col-6">
@@ -115,7 +115,7 @@
         </div>
 
         <!-- Pagination Controls -->
-        <nav aria-label="NavegaciÛn de p·ginas" class="mt-4">
+        <nav aria-label="Navegaci√≥n de pp√°ginas" class="mt-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <small class="text-muted">
@@ -152,10 +152,10 @@
                 </ul>
                 <div>
                     <select class="form-select form-select-sm" style="width: auto;" @onchange="OnPageSizeChanged">
-                        <option value="6" selected="@(pageSize == 6)">6 por p·gina</option>
-                        <option value="12" selected="@(pageSize == 12)">12 por p·gina</option>
-                        <option value="24" selected="@(pageSize == 24)">24 por p·gina</option>
-                        <option value="48" selected="@(pageSize == 48)">48 por p·gina</option>
+                        <option value="6" selected="@(pageSize == 6)">6 por pp√°gina</option>
+                        <option value="12" selected="@(pageSize == 12)">12 por pp√°gina</option>
+                        <option value="24" selected="@(pageSize == 24)">24 por pp√°gina</option>
+                        <option value="48" selected="@(pageSize == 48)">48 por pp√°gina</option>
                     </select>
                 </div>
             </div>
@@ -177,7 +177,7 @@
                     <DataAnnotationsValidator />
                     <div class="modal-body">
                         <p>Tarjeta: <strong>@selectedCard.MaskedCardNumber</strong></p>
-                        <p>CrÈdito disponible: <strong class="text-success">@selectedCard.AvailableCredit.ToString("C")</strong></p>
+                        <p>Cr√©dito disponible: <strong class="text-success">@selectedCard.AvailableCredit.ToString("C")</strong></p>
                         <div class="mb-3">
                             <label class="form-label">Monto del cargo</label>
                             <InputNumber @bind-Value="transactionModel.Amount" class="form-control" />
@@ -237,19 +237,19 @@
     </div>
 }
 
-<!-- Modal de ConfirmaciÛn de EliminaciÛn -->
+<!-- Modal de Confirmaci√≥n de Eliminaci√≥n -->
 @if (showDeleteModal && selectedCard != null)
 {
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Confirmar EliminaciÛn</h5>
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Confirmar Eliminaci√≥n</h5>
                     <button type="button" class="btn-close btn-close-white" @onclick="CloseModals"></button>
                 </div>
                 <div class="modal-body">
-                    <p>øEst· seguro de que desea eliminar la tarjeta <strong>@selectedCard.MaskedCardNumber</strong>?</p>
-                    <p class="text-danger"><small>Esta acciÛn no se puede deshacer.</small></p>
+                    <p>¬øEst√° seguro de que desea eliminar la tarjeta <strong>@selectedCard.MaskedCardNumber</strong>?</p>
+                    <p class="text-danger"><small>Esta acci√≥n no se puede deshacer.</small></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" @onclick="CloseModals">Cancelar</button>

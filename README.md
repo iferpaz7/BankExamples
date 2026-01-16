@@ -1,39 +1,39 @@
 # Credit Card API
 
-API REST para gestiÛn de tarjetas de crÈdito desarrollada con .NET 9 y Clean Architecture.
+API REST para gesti√≥n de tarjetas de cr√©dito desarrollada con .NET 9 y Clean Architecture.
 
-## ??? Arquitectura
+## üèóÔ∏è Arquitectura
 
 El proyecto sigue los principios de **Clean Architecture** con las siguientes capas:
 
 ```
 src/
-??? CreditCard.Api/           # Capa de presentaciÛn (Minimal APIs)
-??? CreditCard.Application/   # Capa de aplicaciÛn (Servicios, DTOs)
-??? CreditCard.Domain/        # Capa de dominio (Entidades, Repositorios)
-??? CreditCard.Infrastructure/# Capa de infraestructura (EF Core, Persistencia)
+‚îú‚îÄ‚îÄ CreditCard.Api/           # Capa de presentaci√≥n (Minimal APIs)
+‚îú‚îÄ‚îÄ CreditCard.Application/   # Capa de aplicaci√≥n (Servicios, DTOs)
+‚îú‚îÄ‚îÄ CreditCard.Domain/        # Capa de dominio (Entidades, Repositorios)
+‚îî‚îÄ‚îÄ CreditCard.Infrastructure/# Capa de infraestructura (EF Core, Persistencia)
 
 tests/
-??? CreditCard.Tests/         # Pruebas unitarias
+‚îî‚îÄ‚îÄ CreditCard.Tests/         # Pruebas unitarias
 ```
 
-## ?? Requisitos
+## üìã Requisitos
 
 - .NET 9 SDK
 - SQL Server (o SQL Server LocalDB)
 
-## ?? ConfiguraciÛn
+## ‚öôÔ∏è Configuraci√≥n
 
 1. Clonar el repositorio
 2. Restaurar paquetes: `dotnet restore`
-3. Ejecutar migraciones: Las migraciones se ejecutan autom·ticamente en modo desarrollo
-4. Ejecutar la aplicaciÛn: `dotnet run --project src/CreditCard.Api`
+3. Ejecutar migraciones: Las migraciones se ejecutan autom√°ticamente en modo desarrollo
+4. Ejecutar la aplicaci√≥n: `dotnet run --project src/CreditCard.Api`
 
-## ?? API Endpoints
+## üöÄ API Endpoints
 
-| MÈtodo | Endpoint | DescripciÛn |
+| M√©todo | Endpoint | Descripci√≥n |
 |--------|----------|-------------|
-| POST | `/api/creditcards` | Crear tarjeta de crÈdito |
+| POST | `/api/creditcards` | Crear tarjeta de cr√©dito |
 | GET | `/api/creditcards` | Obtener todas las tarjetas |
 | GET | `/api/creditcards/{id}` | Obtener tarjeta por ID |
 | PUT | `/api/creditcards/{id}` | Actualizar tarjeta |
@@ -43,7 +43,7 @@ tests/
 | POST | `/api/creditcards/{id}/deactivate` | Desactivar tarjeta |
 | POST | `/api/creditcards/{id}/activate` | Activar tarjeta |
 
-## ?? Pruebas Unitarias
+## üß™ Pruebas Unitarias
 
 El proyecto incluye pruebas unitarias exhaustivas usando **xUnit**, **Moq** y **FluentAssertions**.
 
@@ -61,136 +61,136 @@ dotnet test --collect:"XPlat Code Coverage"
 
 ---
 
-## ?? Cat·logo de Pruebas
+## üìä Cat√°logo de Pruebas
 
-### ?? Pruebas de Dominio - `CreditCardEntity`
+### üèõÔ∏è Pruebas de Dominio - `CreditCardEntity`
 
-#### ? Pruebas Positivas
+#### ‚úÖ Pruebas Positivas
 
-| Prueba | DescripciÛn | Resultado Esperado |
+| Prueba | Descripci√≥n | Resultado Esperado |
 |--------|-------------|-------------------|
-| `Create_ConDatosValidos_DebeCrearTarjeta` | Crear tarjeta con todos los datos v·lidos | Tarjeta creada con ID, estado activo y crÈdito disponible igual al lÌmite |
-| `Create_ConNumeroTarjetaValido` | Crear tarjeta con n˙mero de 13-19 dÌgitos | Tarjeta creada correctamente |
-| `Create_ConCVVValido` | Crear tarjeta con CVV de 3-4 dÌgitos | Tarjeta creada correctamente |
-| `UpdateCardHolder_ConNombreValido_DebeActualizarNombre` | Actualizar nombre del titular | Nombre actualizado en may˙sculas, UpdatedAt establecido |
-| `UpdateCreditLimit_ConLimiteMayor_DebeAumentarCreditoDisponible` | Aumentar lÌmite de crÈdito | LÌmite y crÈdito disponible incrementados |
-| `UpdateCreditLimit_ConLimiteMenor_DebeReducirCreditoDisponible` | Reducir lÌmite de crÈdito | LÌmite y crÈdito disponible reducidos |
-| `MakeCharge_ConMontoValido_DebeReducirCreditoDisponible` | Realizar cargo v·lido | CrÈdito disponible reducido por el monto del cargo |
-| `MakeCharge_ConMontoIgualACreditoDisponible_DebeDejarCreditoEnCero` | Cargo por el total disponible | CrÈdito disponible en cero |
-| `MakePayment_ConMontoValido_DebeAumentarCreditoDisponible` | Realizar pago v·lido | CrÈdito disponible aumentado |
-| `MakePayment_ConPagoTotal_DebeRestaurarCreditoCompleto` | Pagar deuda completa | CrÈdito disponible igual al lÌmite |
+| `Create_ConDatosValidos_DebeCrearTarjeta` | Crear tarjeta con todos los datos v√°lidos | Tarjeta creada con ID, estado activo y cr√©dito disponible igual al l√≠mite |
+| `Create_ConNumeroTarjetaValido` | Crear tarjeta con n√∫mero de 13-19 d√≠gitos | Tarjeta creada correctamente |
+| `Create_ConCVVValido` | Crear tarjeta con CVV de 3-4 d√≠gitos | Tarjeta creada correctamente |
+| `UpdateCardHolder_ConNombreValido_DebeActualizarNombre` | Actualizar nombre del titular | Nombre actualizado en may√∫sculas, UpdatedAt establecido |
+| `UpdateCreditLimit_ConLimiteMayor_DebeAumentarCreditoDisponible` | Aumentar l√≠mite de cr√©dito | L√≠mite y cr√©dito disponible incrementados |
+| `UpdateCreditLimit_ConLimiteMenor_DebeReducirCreditoDisponible` | Reducir l√≠mite de cr√©dito | L√≠mite y cr√©dito disponible reducidos |
+| `MakeCharge_ConMontoValido_DebeReducirCreditoDisponible` | Realizar cargo v√°lido | Cr√©dito disponible reducido por el monto del cargo |
+| `MakeCharge_ConMontoIgualACreditoDisponible_DebeDejarCreditoEnCero` | Cargo por el total disponible | Cr√©dito disponible en cero |
+| `MakePayment_ConMontoValido_DebeAumentarCreditoDisponible` | Realizar pago v√°lido | Cr√©dito disponible aumentado |
+| `MakePayment_ConPagoTotal_DebeRestaurarCreditoCompleto` | Pagar deuda completa | Cr√©dito disponible igual al l√≠mite |
 | `Deactivate_DebeDesactivarTarjeta` | Desactivar tarjeta | IsActive = false |
 | `Activate_DebeActivarTarjeta` | Activar tarjeta desactivada | IsActive = true |
 
-#### ? Pruebas Negativas
+#### ‚ùå Pruebas Negativas
 
-| Prueba | DescripciÛn | ExcepciÛn Esperada |
+| Prueba | Descripci√≥n | Excepci√≥n Esperada |
 |--------|-------------|-------------------|
-| `Create_ConNumeroTarjetaNuloOVacio_DebeLanzarExcepcion` | N˙mero de tarjeta nulo, vacÌo o espacios | `ArgumentException: "El n˙mero de tarjeta es requerido"` |
-| `Create_ConNumeroTarjetaLongitudInvalida_DebeLanzarExcepcion` | N˙mero < 13 o > 19 dÌgitos | `ArgumentException: "El n˙mero de tarjeta debe tener entre 13 y 19 dÌgitos"` |
-| `Create_ConNombreTitularNuloOVacio_DebeLanzarExcepcion` | Nombre nulo, vacÌo o espacios | `ArgumentException: "El nombre del titular es requerido"` |
+| `Create_ConNumeroTarjetaNuloOVacio_DebeLanzarExcepcion` | N√∫mero de tarjeta nulo, vac√≠o o espacios | `ArgumentException: "El n√∫mero de tarjeta es requerido"` |
+| `Create_ConNumeroTarjetaLongitudInvalida_DebeLanzarExcepcion` | N√∫mero < 13 o > 19 d√≠gitos | `ArgumentException: "El n√∫mero de tarjeta debe tener entre 13 y 19 d√≠gitos"` |
+| `Create_ConNombreTitularNuloOVacio_DebeLanzarExcepcion` | Nombre nulo, vac√≠o o espacios | `ArgumentException: "El nombre del titular es requerido"` |
 | `Create_ConNombreTitularMuyCorto_DebeLanzarExcepcion` | Nombre < 3 caracteres | `ArgumentException: "El nombre debe tener al menos 3 caracteres"` |
-| `Create_ConCVVNuloOVacio_DebeLanzarExcepcion` | CVV nulo, vacÌo o espacios | `ArgumentException: "El CVV es requerido"` |
-| `Create_ConCVVLongitudInvalida_DebeLanzarExcepcion` | CVV < 3 o > 4 dÌgitos | `ArgumentException: "El CVV debe tener 3 o 4 dÌgitos"` |
-| `UpdateCardHolder_ConNombreNuloOVacio_DebeLanzarExcepcion` | Actualizar con nombre inv·lido | `ArgumentException: "El nombre del titular es requerido"` |
+| `Create_ConCVVNuloOVacio_DebeLanzarExcepcion` | CVV nulo, vac√≠o o espacios | `ArgumentException: "El CVV es requerido"` |
+| `Create_ConCVVLongitudInvalida_DebeLanzarExcepcion` | CVV < 3 o > 4 d√≠gitos | `ArgumentException: "El CVV debe tener 3 o 4 d√≠gitos"` |
+| `UpdateCardHolder_ConNombreNuloOVacio_DebeLanzarExcepcion` | Actualizar con nombre inv√°lido | `ArgumentException: "El nombre del titular es requerido"` |
 | `UpdateCardHolder_ConNombreMuyCorto_DebeLanzarExcepcion` | Nombre < 3 caracteres | `ArgumentException: "El nombre debe tener al menos 3 caracteres"` |
-| `UpdateCreditLimit_ConLimiteCeroONegativo_DebeLanzarExcepcion` | LÌmite <= 0 | `ArgumentException: "El lÌmite de crÈdito debe ser mayor a 0"` |
+| `UpdateCreditLimit_ConLimiteCeroONegativo_DebeLanzarExcepcion` | L√≠mite <= 0 | `ArgumentException: "El l√≠mite de cr√©dito debe ser mayor a 0"` |
 | `MakeCharge_ConMontoCeroONegativo_DebeLanzarExcepcion` | Monto <= 0 | `ArgumentException: "El monto debe ser mayor a 0"` |
-| `MakeCharge_ConTarjetaInactiva_DebeLanzarExcepcion` | Cargo en tarjeta desactivada | `InvalidOperationException: "La tarjeta est· inactiva"` |
-| `MakeCharge_ConMontoMayorACreditoDisponible_DebeLanzarExcepcion` | Monto > crÈdito disponible | `InvalidOperationException: "CrÈdito insuficiente"` |
+| `MakeCharge_ConTarjetaInactiva_DebeLanzarExcepcion` | Cargo en tarjeta desactivada | `InvalidOperationException: "La tarjeta est√° inactiva"` |
+| `MakeCharge_ConMontoMayorACreditoDisponible_DebeLanzarExcepcion` | Monto > cr√©dito disponible | `InvalidOperationException: "Cr√©dito insuficiente"` |
 | `MakePayment_ConMontoCeroONegativo_DebeLanzarExcepcion` | Monto <= 0 | `ArgumentException: "El monto debe ser mayor a 0"` |
-| `MakePayment_ConPagoQueExcedeLimite_DebeLanzarExcepcion` | Pago que excede lÌmite de crÈdito | `InvalidOperationException: "El pago excede el lÌmite de crÈdito"` |
+| `MakePayment_ConPagoQueExcedeLimite_DebeLanzarExcepcion` | Pago que excede l√≠mite de cr√©dito | `InvalidOperationException: "El pago excede el l√≠mite de cr√©dito"` |
 
 ---
 
-### ?? Pruebas de AplicaciÛn - `CreditCardService`
+### üíº Pruebas de Aplicaci√≥n - `CreditCardService`
 
-#### ? Pruebas Positivas
+#### ‚úÖ Pruebas Positivas
 
-| Prueba | DescripciÛn | Resultado Esperado |
+| Prueba | Descripci√≥n | Resultado Esperado |
 |--------|-------------|-------------------|
 | `CreateAsync_ConDatosValidos_DebeCrearTarjetaYRetornarDto` | Crear tarjeta nueva | DTO con datos de la tarjeta creada, repositorio y UoW invocados |
 | `GetByIdAsync_ConIdExistente_DebeRetornarDto` | Obtener tarjeta existente | DTO con datos de la tarjeta |
 | `GetAllAsync_ConTarjetasExistentes_DebeRetornarListaDeDtos` | Obtener todas las tarjetas | Lista de DTOs |
-| `GetAllAsync_SinTarjetas_DebeRetornarListaVacia` | Sin tarjetas en BD | Lista vacÌa |
+| `GetAllAsync_SinTarjetas_DebeRetornarListaVacia` | Sin tarjetas en BD | Lista vac√≠a |
 | `UpdateAsync_ConDatosValidos_DebeActualizarYRetornarDto` | Actualizar tarjeta | DTO con datos actualizados |
 | `DeleteAsync_ConIdExistente_DebeEliminarTarjeta` | Eliminar tarjeta | Repositorio.Delete invocado |
-| `MakeChargeAsync_ConMontoValido_DebeReducirCreditoYRetornarDto` | Realizar cargo | CrÈdito reducido en el DTO |
-| `MakePaymentAsync_ConMontoValido_DebeAumentarCreditoYRetornarDto` | Realizar pago | CrÈdito aumentado en el DTO |
+| `MakeChargeAsync_ConMontoValido_DebeReducirCreditoYRetornarDto` | Realizar cargo | Cr√©dito reducido en el DTO |
+| `MakePaymentAsync_ConMontoValido_DebeAumentarCreditoYRetornarDto` | Realizar pago | Cr√©dito aumentado en el DTO |
 | `DeactivateAsync_ConIdExistente_DebeDesactivarYRetornarDto` | Desactivar tarjeta | IsActive = false en DTO |
 | `ActivateAsync_ConIdExistente_DebeActivarYRetornarDto` | Activar tarjeta | IsActive = true en DTO |
 
-#### ? Pruebas Negativas
+#### ‚ùå Pruebas Negativas
 
-| Prueba | DescripciÛn | ExcepciÛn Esperada |
+| Prueba | Descripci√≥n | Excepci√≥n Esperada |
 |--------|-------------|-------------------|
-| `CreateAsync_ConNumeroTarjetaExistente_DebeLanzarExcepcion` | N˙mero de tarjeta duplicado | `InvalidOperationException: "Ya existe una tarjeta con este n˙mero"` |
+| `CreateAsync_ConNumeroTarjetaExistente_DebeLanzarExcepcion` | N√∫mero de tarjeta duplicado | `InvalidOperationException: "Ya existe una tarjeta con este n√∫mero"` |
 | `GetByIdAsync_ConIdInexistente_DebeRetornarNull` | ID no existe | `null` |
 | `UpdateAsync_ConIdInexistente_DebeLanzarExcepcion` | Actualizar tarjeta inexistente | `InvalidOperationException: "Tarjeta no encontrada"` |
 | `DeleteAsync_ConIdInexistente_DebeLanzarExcepcion` | Eliminar tarjeta inexistente | `InvalidOperationException: "Tarjeta no encontrada"` |
 | `MakeChargeAsync_ConIdInexistente_DebeLanzarExcepcion` | Cargo en tarjeta inexistente | `InvalidOperationException: "Tarjeta no encontrada"` |
-| `MakeChargeAsync_ConCreditoInsuficiente_DebeLanzarExcepcion` | Monto > crÈdito disponible | `InvalidOperationException: "CrÈdito insuficiente"` |
+| `MakeChargeAsync_ConCreditoInsuficiente_DebeLanzarExcepcion` | Monto > cr√©dito disponible | `InvalidOperationException: "Cr√©dito insuficiente"` |
 | `MakePaymentAsync_ConIdInexistente_DebeLanzarExcepcion` | Pago en tarjeta inexistente | `InvalidOperationException: "Tarjeta no encontrada"` |
-| `MakePaymentAsync_ConPagoQueExcedeLimite_DebeLanzarExcepcion` | Pago excede lÌmite | `InvalidOperationException: "El pago excede el lÌmite de crÈdito"` |
+| `MakePaymentAsync_ConPagoQueExcedeLimite_DebeLanzarExcepcion` | Pago excede l√≠mite | `InvalidOperationException: "El pago excede el l√≠mite de cr√©dito"` |
 | `DeactivateAsync_ConIdInexistente_DebeLanzarExcepcion` | Desactivar tarjeta inexistente | `InvalidOperationException: "Tarjeta no encontrada"` |
 | `ActivateAsync_ConIdInexistente_DebeLanzarExcepcion` | Activar tarjeta inexistente | `InvalidOperationException: "Tarjeta no encontrada"` |
 
 ---
 
-### ?? Pruebas de AplicaciÛn - `CreditCardReportService`
+### üìà Pruebas de Aplicaci√≥n - `CreditCardReportService`
 
-#### ? Pruebas Positivas
+#### ‚úÖ Pruebas Positivas
 
-| Prueba | DescripciÛn | Resultado Esperado |
+| Prueba | Descripci√≥n | Resultado Esperado |
 |--------|-------------|-------------------|
 | `GetCreditCardsReportAsync_ConTarjetasExistentes_DebeRetornarListaDeReportes` | Obtener reporte de tarjetas | Lista de reportes DTO |
-| `GetCreditCardsReportAsync_SinTarjetas_DebeRetornarListaVacia` | Sin tarjetas en BD | Lista vacÌa |
+| `GetCreditCardsReportAsync_SinTarjetas_DebeRetornarListaVacia` | Sin tarjetas en BD | Lista vac√≠a |
 | `GetCreditCardReportByIdAsync_ConIdExistente_DebeRetornarReporte` | Obtener reporte por ID | Reporte DTO con datos |
 | `GetActiveCreditCardsAsync_ConTarjetasActivas_DebeRetornarSoloActivas` | Obtener tarjetas activas | Lista de tarjetas activas |
-| `GetActiveCreditCardsAsync_SinTarjetasActivas_DebeRetornarListaVacia` | Sin tarjetas activas | Lista vacÌa |
+| `GetActiveCreditCardsAsync_SinTarjetasActivas_DebeRetornarListaVacia` | Sin tarjetas activas | Lista vac√≠a |
 | `GetCreditCardsWithHighUsageAsync_ConTarjetasAltoUso_DebeRetornarFiltradas` | Tarjetas con alto uso | Lista filtrada |
-| `GetCreditCardsWithHighUsageAsync_SinTarjetasAltoUso_DebeRetornarListaVacia` | Sin tarjetas alto uso | Lista vacÌa |
+| `GetCreditCardsWithHighUsageAsync_SinTarjetasAltoUso_DebeRetornarListaVacia` | Sin tarjetas alto uso | Lista vac√≠a |
 | `GetCreditCardsWithHighUsageAsync_ConPorcentajeCero_DebeRetornarTodas` | Porcentaje 0% | Todas las tarjetas |
-| `GetCreditCardsWithHighUsageAsync_ConPorcentaje100_DebeRetornarSoloMaximoUso` | Porcentaje 100% | Solo uso m·ximo |
+| `GetCreditCardsWithHighUsageAsync_ConPorcentaje100_DebeRetornarSoloMaximoUso` | Porcentaje 100% | Solo uso m√°ximo |
 
-#### ? Pruebas Negativas
+#### ‚ùå Pruebas Negativas
 
-| Prueba | DescripciÛn | Resultado Esperado |
+| Prueba | Descripci√≥n | Resultado Esperado |
 |--------|-------------|-------------------|
 | `GetCreditCardReportByIdAsync_ConIdInexistente_DebeRetornarNull` | ID no existe | `null` |
 
 ---
 
-### ?? Pruebas de Casos Edge - `CreditCardEntity`
+### üî¨ Pruebas de Casos Edge - `CreditCardEntity`
 
-| Prueba | DescripciÛn | Resultado Esperado |
+| Prueba | Descripci√≥n | Resultado Esperado |
 |--------|-------------|-------------------|
 | `Deactivate_TarjetaYaInactiva_DebePermaneceInactiva` | Desactivar tarjeta ya inactiva | Permanece inactiva |
 | `Activate_TarjetaYaActiva_DebePermaneceActiva` | Activar tarjeta ya activa | Permanece activa |
-| `MakeCharge_MultiplesCargos_DebeAcumularCorrectamente` | M˙ltiples cargos | AcumulaciÛn correcta |
-| `MakePayment_MultiplesPagos_DebeAcumularCorrectamente` | M˙ltiples pagos | AcumulaciÛn correcta |
-| `CicloCompleto_CargosYPagos_DebeCalcularCorrectamente` | Ciclo cargos/pagos | C·lculo correcto |
-| `UpdateCreditLimit_ConDeudaExistente_DebeAjustarCreditoDisponible` | Cambio lÌmite con deuda | Ajuste correcto |
-| `Create_ConNombreEnMinusculas_DebeConvertirAMayusculas` | Nombre min˙sculas | Convertido a may˙sculas |
-| `Create_ConNombreMixto_DebeConvertirAMayusculas` | Nombre mixto | Convertido a may˙sculas |
-| `Create_ConDiferentesTiposTarjeta` | Tipos Visa/MC/Amex/Discover | CreaciÛn correcta |
-| `Create_ConDiferentesLimites` | LÌmites 0.01/1/999999.99 | CreaciÛn correcta |
+| `MakeCharge_MultiplesCargos_DebeAcumularCorrectamente` | M√∫ltiples cargos | Acumulaci√≥n correcta |
+| `MakePayment_MultiplesPagos_DebeAcumularCorrectamente` | M√∫ltiples pagos | Acumulaci√≥n correcta |
+| `CicloCompleto_CargosYPagos_DebeCalcularCorrectamente` | Ciclo cargos/pagos | C√°lculo correcto |
+| `UpdateCreditLimit_ConDeudaExistente_DebeAjustarCreditoDisponible` | Cambio l√≠mite con deuda | Ajuste correcto |
+| `Create_ConNombreEnMinusculas_DebeConvertirAMayusculas` | Nombre min√∫sculas | Convertido a may√∫sculas |
+| `Create_ConNombreMixto_DebeConvertirAMayusculas` | Nombre mixto | Convertido a may√∫sculas |
+| `Create_ConDiferentesTiposTarjeta` | Tipos Visa/MC/Amex/Discover | Creaci√≥n correcta |
+| `Create_ConDiferentesLimites` | L√≠mites 0.01/1/999999.99 | Creaci√≥n correcta |
 
 ---
 
-## ?? Pruebas de IntegraciÛn
+## üîó Pruebas de Integraci√≥n
 
-Las pruebas de integraciÛn validan la interacciÛn entre componentes reales del sistema.
+Las pruebas de integraci√≥n validan la interacci√≥n entre componentes reales del sistema.
 
-### Ejecutar Pruebas de IntegraciÛn
+### Ejecutar Pruebas de Integraci√≥n
 
 ```bash
 dotnet test tests/CreditCard.IntegrationTests
 ```
 
-### ?? Pruebas de API Endpoints
+### üåê Pruebas de API Endpoints
 
-| Prueba | MÈtodo | Endpoint | Resultado Esperado |
+| Prueba | M√©todo | Endpoint | Resultado Esperado |
 |--------|--------|----------|-------------------|
 | `CreateCreditCard_ConDatosValidos` | POST | `/api/creditcards` | 201 Created |
 | `CreateCreditCard_ConNumeroTarjetaDuplicado` | POST | `/api/creditcards` | 400 BadRequest |
@@ -208,46 +208,46 @@ dotnet test tests/CreditCard.IntegrationTests
 | `MakePayment_ConPagoQueExcedeLimite` | POST | `/api/creditcards/{id}/payment` | 400 BadRequest |
 | `DeactivateCreditCard_ConIdExistente` | POST | `/api/creditcards/{id}/deactivate` | 200 OK |
 | `ActivateCreditCard_ConTarjetaDesactivada` | POST | `/api/creditcards/{id}/activate` | 200 OK |
-| `FlujoCompleto_CRUD` | M˙ltiples | M˙ltiples | Flujo exitoso |
-| `FlujoCompleto_MultiplesCargosYPagos` | M˙ltiples | M˙ltiples | C·lculo correcto |
+| `FlujoCompleto_CRUD` | M√∫ltiples | M√∫ltiples | Flujo exitoso |
+| `FlujoCompleto_MultiplesCargosYPagos` | M√∫ltiples | M√∫ltiples | C√°lculo correcto |
 
-### ?? Pruebas de Repository
+### üíæ Pruebas de Repository
 
-| Prueba | DescripciÛn | Resultado Esperado |
+| Prueba | Descripci√≥n | Resultado Esperado |
 |--------|-------------|-------------------|
 | `AddAsync_ConEntidadValida` | Agregar tarjeta a BD | Entidad persistida |
-| `AddAsync_MultiplesTarjetas` | Agregar m˙ltiples tarjetas | Todas persistidas |
+| `AddAsync_MultiplesTarjetas` | Agregar m√∫ltiples tarjetas | Todas persistidas |
 | `GetByIdAsync_ConIdExistente` | Obtener por ID existente | Entidad retornada |
 | `GetByIdAsync_ConIdInexistente` | Obtener por ID inexistente | null |
 | `GetAllAsync_ConTarjetasExistentes` | Obtener todas | Lista completa |
-| `GetAllAsync_SinTarjetas` | Obtener sin datos | Lista vacÌa |
+| `GetAllAsync_SinTarjetas` | Obtener sin datos | Lista vac√≠a |
 | `GetAllAsync_OrdenadoPorFecha` | Orden de resultados | Ordenado DESC |
-| `GetByCardNumberAsync_ConNumeroExistente` | Buscar por n˙mero | Entidad retornada |
-| `GetByCardNumberAsync_ConNumeroInexistente` | Buscar n˙mero inexistente | null |
+| `GetByCardNumberAsync_ConNumeroExistente` | Buscar por n√∫mero | Entidad retornada |
+| `GetByCardNumberAsync_ConNumeroInexistente` | Buscar n√∫mero inexistente | null |
 | `Update_ConCambiosValidos` | Actualizar entidad | Cambios persistidos |
-| `Update_ConCargo` | Actualizar con cargo | CrÈdito reducido |
-| `Update_ConPago` | Actualizar con pago | CrÈdito aumentado |
+| `Update_ConCargo` | Actualizar con cargo | Cr√©dito reducido |
+| `Update_ConPago` | Actualizar con pago | Cr√©dito aumentado |
 | `Delete_ConEntidadExistente` | Eliminar entidad | Entidad eliminada |
 | `MultipleOperaciones_Concurrentes` | Operaciones concurrentes | Integridad mantenida |
 
-### ?? Pruebas de UnitOfWork
+### üîÑ Pruebas de UnitOfWork
 
-| Prueba | DescripciÛn | Resultado Esperado |
+| Prueba | Descripci√≥n | Resultado Esperado |
 |--------|-------------|-------------------|
 | `SaveChangesAsync_ConCambiosPendientes` | Guardar cambios | Cambios persistidos |
 | `SaveChangesAsync_SinCambios` | Guardar sin cambios | Retorna 0 |
 | `CreditCards_DebeRetornarRepositorioFuncional` | Acceso a repositorio | Repositorio funcional |
 | `CreditCards_MultiplesAccesos_MismaInstancia` | Singleton de repositorio | Misma instancia |
 | `FlujoCompleto_CrearActualizarEliminar` | Flujo CRUD con UoW | Operaciones exitosas |
-| `FlujoCompleto_CargosYPagos` | Cargos y pagos con UoW | CrÈdito actualizado |
+| `FlujoCompleto_CargosYPagos` | Cargos y pagos con UoW | Cr√©dito actualizado |
 | `FlujoCompleto_ActivarDesactivar` | Activar/Desactivar con UoW | Estado actualizado |
-| `MultiplesOperaciones_EnUnaSolaTransaccion` | M˙ltiples operaciones | Todas guardadas |
+| `MultiplesOperaciones_EnUnaSolaTransaccion` | M√∫ltiples operaciones | Todas guardadas |
 
 ---
 
-## ?? Resumen de Pruebas
+## üìë Resumen de Pruebas
 
-| CategorÌa | Positivas | Negativas | Total |
+| Categor√≠a | Positivas | Negativas | Total |
 |-----------|-----------|-----------|-------|
 | **PRUEBAS UNITARIAS** | | | |
 | Domain (CreditCardEntity) | 22 | 14 | 36 |
@@ -255,35 +255,35 @@ dotnet test tests/CreditCard.IntegrationTests
 | Application (CreditCardReportService) | 9 | 1 | 10 |
 | Casos Edge | 24 | 0 | 24 |
 | **Subtotal Unitarias** | **65** | **25** | **90** |
-| **PRUEBAS DE INTEGRACI”N** | | | |
+| **PRUEBAS DE INTEGRACI√ìN** | | | |
 | API Endpoints | 16 | 6 | 22 |
 | Repository | 12 | 2 | 14 |
 | UnitOfWork | 8 | 0 | 8 |
-| **Subtotal IntegraciÛn** | **36** | **8** | **44** |
+| **Subtotal Integraci√≥n** | **36** | **8** | **44** |
 | **TOTAL GENERAL** | **101** | **33** | **134** |
 
-## ?? Archivos de Entrega
+## üì¶ Archivos de Entrega
 
-Los archivos para el pase de producciÛn se encuentran en:
+Los archivos para el pase de producci√≥n se encuentran en:
 
-| Archivo | UbicaciÛn | DescripciÛn |
+| Archivo | Ubicaci√≥n | Descripci√≥n |
 |---------|-----------|-------------|
-| Pruebas Unitarias + IntegraciÛn | `tests/CreditCard.Tests/TestResults/PruebasUnitarias_CreditCard.csv` | CSV con 134 pruebas |
+| Pruebas Unitarias + Integraci√≥n | `tests/CreditCard.Tests/TestResults/PruebasUnitarias_CreditCard.csv` | CSV con 134 pruebas |
 
-## ? TecnologÌas Utilizadas
+## üõ†Ô∏è Tecnolog√≠as Utilizadas
 
 - **.NET 9** - Framework principal
 - **Entity Framework Core 9** - ORM
 - **SQL Server** - Base de datos
 - **xUnit** - Framework de pruebas
 - **Moq** - Framework de mocking
-- **FluentAssertions** - LibrerÌa de aserciones fluidas
-- **Swagger/OpenAPI** - DocumentaciÛn de API
+- **FluentAssertions** - Librer√≠a de aserciones fluidas
+- **Swagger/OpenAPI** - Documentaci√≥n de API
 - **NBomber** - Framework de pruebas de carga
 
 ---
 
-## ?? Pruebas de Carga
+## üöÄ Pruebas de Carga
 
 El proyecto incluye pruebas de carga masiva utilizando **NBomber** para evaluar el rendimiento de la API.
 
@@ -291,19 +291,19 @@ El proyecto incluye pruebas de carga masiva utilizando **NBomber** para evaluar 
 
 ```
 tests/
-??? CreditCard.LoadTests/     # Proyecto de pruebas de carga (consola)
+‚îî‚îÄ‚îÄ CreditCard.LoadTests/     # Proyecto de pruebas de carga (consola)
 src/
-??? CreditCard.Web/           # Interfaz Blazor con panel de pruebas de carga
+‚îî‚îÄ‚îÄ CreditCard.Web/           # Interfaz Blazor con panel de pruebas de carga
 ```
 
 ### Tipos de Pruebas de Carga
 
-| Tipo | DescripciÛn | ConfiguraciÛn Por Defecto |
+| Tipo | Descripci√≥n | Configuraci√≥n Por Defecto |
 |------|-------------|---------------------------|
-| **Smoke Test** | ValidaciÛn b·sica con carga mÌnima | 30s, 5 RPS |
-| **Load Test** | SimulaciÛn de carga normal esperada | 60s, 20 RPS |
-| **Stress Test** | Encontrar lÌmites del sistema | 60s, 50 RPS |
-| **Spike Test** | Simular picos repentinos de tr·fico | 60s, 100 RPS |
+| **Smoke Test** | Validaci√≥n b√°sica con carga m√≠nima | 30s, 5 RPS |
+| **Load Test** | Simulaci√≥n de carga normal esperada | 60s, 20 RPS |
+| **Stress Test** | Encontrar l√≠mites del sistema | 60s, 50 RPS |
+| **Spike Test** | Simular picos repentinos de tr√°fico | 60s, 100 RPS |
 | **CRUD Flow Test** | Flujo completo de operaciones CRUD | 120s, 5 RPS |
 | **Reports Test** | Pruebas de endpoints de reportes | 120s, 10 RPS |
 
@@ -313,7 +313,7 @@ src/
 # Ejecutar el proyecto de pruebas de carga
 dotnet run --project tests/CreditCard.LoadTests
 
-# Seleccionar opciÛn del men˙:
+# Seleccionar opci√≥n del men√∫:
 # 1. Smoke Test
 # 2. Load Test
 # 3. Stress Test
@@ -330,20 +330,20 @@ dotnet run --project tests/CreditCard.LoadTests
 dotnet run --project src/CreditCard.Api
 ```
 
-2. Iniciar la aplicaciÛn web:
+2. Iniciar la aplicaci√≥n web:
 ```bash
 dotnet run --project src/CreditCard.Web
 ```
 
 3. Navegar a `https://localhost:xxxx/loadtests`
 
-4. Configurar y ejecutar las pruebas desde la interfaz gr·fica
+4. Configurar y ejecutar las pruebas desde la interfaz gr√°fica
 
-### MÈtricas Capturadas
+### M√©tricas Capturadas
 
-| MÈtrica | DescripciÛn |
+| M√©trica | Descripci√≥n |
 |---------|-------------|
-| **Total Requests** | N˙mero total de peticiones realizadas |
+| **Total Requests** | N√∫mero total de peticiones realizadas |
 | **Successful Requests** | Peticiones exitosas (2xx) |
 | **Failed Requests** | Peticiones fallidas |
 | **RPS (Requests/Second)** | Throughput promedio |
@@ -353,18 +353,18 @@ dotnet run --project src/CreditCard.Web
 | **P99** | Percentil 99 de tiempo de respuesta |
 | **Error Rate** | Porcentaje de errores |
 
-### Criterios de …xito
+### Criterios de √âxito
 
-- ? Tasa de error < 5%
-- ? P95 < 1000ms
+- ‚úÖ Tasa de error < 5%
+- ‚úÖ P95 < 1000ms
 
 ### Reportes
 
-Los reportes de NBomber se generan autom·ticamente en:
+Los reportes de NBomber se generan autom√°ticamente en:
 - `tests/CreditCard.LoadTests/LoadTestResults/`
 - Formatos: HTML, CSV, Markdown
 
-### ConfiguraciÛn
+### Configuraci√≥n
 
 Modificar `tests/CreditCard.LoadTests/appsettings.json`:
 
@@ -388,6 +388,6 @@ Modificar `tests/CreditCard.LoadTests/appsettings.json`:
 
 ---
 
-## ?? Licencia
+## üìÑ Licencia
 
-Este proyecto est· bajo la licencia MIT.
+Este proyecto est√° bajo la licencia MIT.

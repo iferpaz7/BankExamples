@@ -1,21 +1,21 @@
-# ?? Guía de Pruebas - Credit Card API
+# ðŸ“‹ GuÃ­a de Pruebas - Credit Card API
 
-Esta guía te ayudará a probar todos los endpoints de la API de Tarjetas de Crédito.
+Esta guÃ­a te ayudarÃ¡ a probar todos los endpoints de la API de Tarjetas de CrÃ©dito.
 
 ---
 
-## ?? **Iniciar la API**
+## âœ… **Iniciar la API**
 
 ```powershell
 cd src/CreditCard.Api
 dotnet run
 ```
 
-La API estará disponible en: `http://localhost:5282`
+La API estarÃ¡ disponible en: `http://localhost:5282`
 
 ---
 
-## ?? **Opciones de Testing**
+## âœ… **Opciones de Testing**
 
 ### **1. Swagger UI (Recomendado para comenzar)**
 Accede a: **http://localhost:5282/swagger**
@@ -27,25 +27,25 @@ Abre el archivo: `src/CreditCard.Api/CreditCard.Api.http`
 
 Este archivo contiene todos los endpoints listos para ejecutar directamente desde Visual Studio.
 
-**Cómo usar:**
+**CÃ³mo usar:**
 1. Abre `CreditCard.Api.http` en Visual Studio
-2. Haz clic en "Send Request" sobre cada petición
+2. Haz clic en "Send Request" sobre cada peticiÃ³n
 3. Copia el `id` de las respuestas y reemplaza `{{cardId}}` en las siguientes peticiones
 
 ### **3. Postman**
-Importa la colección: `CreditCard.Api.postman_collection.json`
+Importa la colecciÃ³n: `CreditCard.Api.postman_collection.json`
 
-**Características:**
-- ? Scripts automáticos que guardan el `cardId`
-- ? Variables de entorno pre-configuradas
-- ? Tests organizados por categorías
-- ? Casos de error incluidos
+**CaracterÃ³sticas:**
+- â”‚ Scripts automÃ³ticos que guardan el `cardId`
+- â”‚ Variables de entorno pre-configuradas
+- â”‚ Tests organizados por categorÃ³as
+- â”‚ Casos de error incluidos
 
 ### **4. Script PowerShell Automatizado**
 Ejecuta: `.\test-api.ps1`
 
-Este script ejecuta automáticamente todos los tests en secuencia:
-- Crea múltiples tarjetas
+Este script ejecuta automÃ³ticamente todos los tests en secuencia:
+- Crea mÃ³ltiples tarjetas
 - Realiza operaciones de negocio
 - Genera reportes
 - Prueba casos de error
@@ -59,7 +59,7 @@ Ejemplos de comandos cURL para cada endpoint.
 
 ---
 
-## ?? **Flujo de Prueba Recomendado**
+## âœ… **Flujo de Prueba Recomendado**
 
 ### **Paso 1: Crear Tarjetas**
 
@@ -69,7 +69,7 @@ curl -X POST http://localhost:5282/api/creditcards \
   -H "Content-Type: application/json" \
   -d '{
     "cardNumber": "4532015112830366",
-    "cardHolderName": "Juan Pérez",
+    "cardHolderName": "Juan PÃ³rez",
     "expirationDate": "12/2027",
     "cvv": "123",
     "creditLimit": 10000.00,
@@ -82,7 +82,7 @@ curl -X POST http://localhost:5282/api/creditcards \
 {
   "id": "12345678-1234-1234-1234-123456789abc",
   "cardNumber": "4532015112830366",
-  "cardHolderName": "JUAN PÉREZ",
+  "cardHolderName": "JUAN PÃ³REZ",
   "expirationDate": "12/2027",
   "cardType": "Visa",
   "creditLimit": 10000.00,
@@ -93,7 +93,7 @@ curl -X POST http://localhost:5282/api/creditcards \
 }
 ```
 
-**?? IMPORTANTE:** Copia el `id` de la respuesta para usarlo en las siguientes peticiones.
+**ðŸ“‹ IMPORTANTE:** Copia el `id` de la respuesta para usarlo en las siguientes peticiones.
 
 ---
 
@@ -109,7 +109,7 @@ curl -X GET http://localhost:5282/api/creditcards
   {
     "id": "12345678-1234-1234-1234-123456789abc",
     "cardNumber": "4532015112830366",
-    "cardHolderName": "JUAN PÉREZ",
+    "cardHolderName": "JUAN PÃ³REZ",
     ...
   }
 ]
@@ -182,7 +182,7 @@ curl -X GET http://localhost:5282/api/reports/creditcards
   {
     "id": "12345678-1234-1234-1234-123456789abc",
     "cardNumber": "4532015112830366",
-    "cardHolderName": "JUAN PÉREZ",
+    "cardHolderName": "JUAN PÃ³REZ",
     "cardType": "Visa",
     "creditLimit": 10000.00,
     "availableCredit": 8500.00,
@@ -195,7 +195,7 @@ curl -X GET http://localhost:5282/api/reports/creditcards
 
 #### **Tarjetas con Alto Uso (>70%)**
 ```bash
-curl -X GET "http://localhost:5282/api/reports/creditcards/high-usage?minPercentage=70"
+curl -X GET "http://localhost:5282/api/reports/creditcards/high-usageâ”‚minPercentage=70"
 ```
 
 ---
@@ -206,7 +206,7 @@ curl -X GET "http://localhost:5282/api/reports/creditcards/high-usage?minPercent
 curl -X PUT http://localhost:5282/api/creditcards/{cardId} \
   -H "Content-Type: application/json" \
   -d '{
-    "cardHolderName": "Juan Carlos Pérez Martínez",
+    "cardHolderName": "Juan Carlos PÃ³rez MartÃ³nez",
     "creditLimit": 12000.00
   }'
 ```
@@ -238,9 +238,9 @@ Sin contenido en el body.
 
 ---
 
-## ?? **Casos de Error para Probar**
+## âœ… **Casos de Error para Probar**
 
-### **1. Número de Tarjeta Duplicado**
+### **1. NÃ³mero de Tarjeta Duplicado**
 ```bash
 curl -X POST http://localhost:5282/api/creditcards \
   -H "Content-Type: application/json" \
@@ -257,13 +257,13 @@ curl -X POST http://localhost:5282/api/creditcards \
 **Respuesta esperada (400 Bad Request):**
 ```json
 {
-  "error": "Ya existe una tarjeta con este número"
+  "error": "Ya existe una tarjeta con este nÃ³mero"
 }
 ```
 
 ---
 
-### **2. CVV Inválido (menos de 3 dígitos)**
+### **2. CVV InvÃ³lido (menos de 3 dÃ³gitos)**
 ```bash
 curl -X POST http://localhost:5282/api/creditcards \
   -H "Content-Type: application/json" \
@@ -280,13 +280,13 @@ curl -X POST http://localhost:5282/api/creditcards \
 **Respuesta esperada (400 Bad Request):**
 ```json
 {
-  "error": "El CVV debe tener 3 o 4 dígitos"
+  "error": "El CVV debe tener 3 o 4 dÃ³gitos"
 }
 ```
 
 ---
 
-### **3. Cargo Mayor al Crédito Disponible**
+### **3. Cargo Mayor al CrÃ©dito Disponible**
 ```bash
 curl -X POST http://localhost:5282/api/creditcards/{cardId}/charge \
   -H "Content-Type: application/json" \
@@ -298,13 +298,13 @@ curl -X POST http://localhost:5282/api/creditcards/{cardId}/charge \
 **Respuesta esperada (400 Bad Request):**
 ```json
 {
-  "error": "Crédito insuficiente"
+  "error": "CrÃ©dito insuficiente"
 }
 ```
 
 ---
 
-### **4. Operación en Tarjeta Inactiva**
+### **4. OperaciÃ³n en Tarjeta Inactiva**
 Primero desactiva una tarjeta, luego intenta hacer un cargo:
 
 ```bash
@@ -322,13 +322,13 @@ curl -X POST http://localhost:5282/api/creditcards/{cardId}/charge \
 **Respuesta esperada (400 Bad Request):**
 ```json
 {
-  "error": "La tarjeta está inactiva"
+  "error": "La tarjeta estÃ¡ inactiva"
 }
 ```
 
 ---
 
-### **5. Número de Tarjeta Inválido (muy corto)**
+### **5. NÃ³mero de Tarjeta InvÃ³lido (muy corto)**
 ```bash
 curl -X POST http://localhost:5282/api/creditcards \
   -H "Content-Type: application/json" \
@@ -345,17 +345,17 @@ curl -X POST http://localhost:5282/api/creditcards \
 **Respuesta esperada (400 Bad Request):**
 ```json
 {
-  "error": "El número de tarjeta debe tener entre 13 y 19 dígitos"
+  "error": "El nÃ³mero de tarjeta debe tener entre 13 y 19 dÃ³gitos"
 }
 ```
 
 ---
 
-## ?? **Números de Tarjeta de Prueba**
+## âœ… **NÃ³meros de Tarjeta de Prueba**
 
-Usa estos números de tarjeta válidos para testing:
+Usa estos nÃ³meros de tarjeta vÃ³lidos para testing:
 
-| Marca | Número | CVV | Vencimiento |
+| Marca | NÃ³mero | CVV | Vencimiento |
 |-------|--------|-----|-------------|
 | Visa | 4532015112830366 | 123 | 12/2027 |
 | Visa | 4916338506082832 | 321 | 03/2029 |
@@ -366,7 +366,7 @@ Usa estos números de tarjeta válidos para testing:
 
 ---
 
-## ?? **Escenarios de Prueba Completos**
+## âœ… **Escenarios de Prueba Completos**
 
 ### **Escenario 1: Ciclo de Vida Completo de una Tarjeta**
 
@@ -398,20 +398,20 @@ curl -X DELETE http://localhost:5282/api/creditcards/$cardId
 
 ---
 
-### **Escenario 2: Múltiples Cargos hasta Límite**
+### **Escenario 2: MÃ³ltiples Cargos hasta LÃ³mite**
 
 ```bash
-# 1. Crear tarjeta con límite de $5000
+# 1. Crear tarjeta con lÃ³mite de $5000
 # 2. Cargo 1: $2000 (40% usado)
 # 3. Cargo 2: $1500 (70% usado)
 # 4. Cargo 3: $1000 (90% usado)
 # 5. Consultar reporte de alto uso
-curl -X GET "http://localhost:5282/api/reports/creditcards/high-usage?minPercentage=80"
+curl -X GET "http://localhost:5282/api/reports/creditcards/high-usageâ”‚minPercentage=80"
 ```
 
 ---
 
-## ?? **Verificación de Base de Datos**
+## âœ… **VerificaciÃ³n de Base de Datos**
 
 Puedes inspeccionar la base de datos SQLite directamente:
 
@@ -424,7 +424,7 @@ Puedes inspeccionar la base de datos SQLite directamente:
 # Conectar a la base de datos
 sqlite3 src/CreditCard.Api/creditcards.db
 
-# Consultas útiles
+# Consultas Ã³tiles
 .tables
 SELECT * FROM CreditCards;
 SELECT CardHolderName, CreditLimit, AvailableCredit FROM CreditCards;
@@ -433,35 +433,35 @@ SELECT CardHolderName, CreditLimit, AvailableCredit FROM CreditCards;
 
 ---
 
-## ?? **Métricas de Éxito**
+## âœ… **MÃ³tricas de Ã³xito**
 
 Al finalizar las pruebas, verifica:
 
-- ? Todas las tarjetas creadas aparecen en GET /api/creditcards
-- ? Los cargos reducen el crédito disponible correctamente
-- ? Los pagos aumentan el crédito disponible
-- ? No se permite exceder el límite de crédito
-- ? Las validaciones de dominio funcionan (CVV, número de tarjeta, etc.)
-- ? Los reportes con Dapper muestran datos correctos
-- ? Las operaciones en tarjetas inactivas son rechazadas
+- â”‚ Todas las tarjetas creadas aparecen en GET /api/creditcards
+- â”‚ Los cargos reducen el CrÃ©dito disponible correctamente
+- â”‚ Los pagos aumentan el CrÃ©dito disponible
+- â”‚ No se permite exceder el lÃ³mite de CrÃ©dito
+- â”‚ Las validaciones de dominio funcionan (CVV, nÃ³mero de tarjeta, etc.)
+- â”‚ Los reportes con Dapper muestran datos correctos
+- â”‚ Las operaciones en tarjetas inactivas son rechazadas
 
 ---
 
-## ?? **Troubleshooting**
+## âœ… **Troubleshooting**
 
 ### **Error: "Connection refused"**
-Verifica que la API esté corriendo:
+Verifica que la API estÃ¡ corriendo:
 ```bash
 cd src/CreditCard.Api
 dotnet run
 ```
 
 ### **Error: "Database locked"**
-Cierra cualquier conexión SQLite abierta.
+Cierra cualquier conexiÃ³n SQLite abierta.
 
 ### **Error: "Invalid JSON"**
-Verifica que el JSON esté bien formateado (usa un validador online).
+Verifica que el JSON estÃ¡ bien formateado (usa un validador online).
 
 ---
 
-¡Feliz Testing! ??
+Ã³Feliz Testing! ðŸ“‹

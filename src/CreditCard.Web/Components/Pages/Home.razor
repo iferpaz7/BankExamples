@@ -1,7 +1,108 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Inicio - Credit Card Manager</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4"><i class="bi bi-credit-card me-3"></i>Sistema de Gestión de Tarjetas de Crédito</h1>
+            <p class="lead text-muted">Administra tarjetas de crédito con arquitectura Clean y pruebas de carga</p>
+        </div>
+    </div>
 
-Welcome to your new app.
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-credit-card text-primary me-2"></i>
+                        Gestión de Tarjetas
+                    </h5>
+                    <p class="card-text">
+                        Crea, edita, y administra tarjetas de crédito. Realiza operaciones de cargos, pagos,
+                        activación y desactivación.
+                    </p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>CRUD completo</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Operaciones de cargo/pago</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Control de límites</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Activación/Desactivación</li>
+                    </ul>
+                    <a href="/creditcards" class="btn btn-primary">
+                        <i class="bi bi-arrow-right-circle me-1"></i>Ver Tarjetas
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-speedometer2 text-warning me-2"></i>
+                        Pruebas de Carga
+                    </h5>
+                    <p class="card-text">
+                        Ejecuta pruebas de rendimiento con NBomber para evaluar el comportamiento
+                        de la API bajo diferentes escenarios de carga.
+                    </p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Smoke Tests</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Load Tests</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Stress Tests</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Spike Tests</li>
+                    </ul>
+                    <a href="/loadtests" class="btn btn-warning">
+                        <i class="bi bi-arrow-right-circle me-1"></i>Ejecutar Pruebas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-info-circle text-info me-2"></i>
+                        Arquitectura del Proyecto
+                    </h5>
+                    <p class="mb-2">
+                        Este proyecto implementa <strong>Clean Architecture</strong> con las siguientes tecnologías:
+                    </p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-dot"></i>.NET 9</li>
+                                <li><i class="bi bi-dot"></i>Minimal APIs</li>
+                                <li><i class="bi bi-dot"></i>Blazor Server</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-dot"></i>Entity Framework Core</li>
+                                <li><i class="bi bi-dot"></i>Dapper (CQRS)</li>
+                                <li><i class="bi bi-dot"></i>SQLite</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-dot"></i>xUnit + Moq</li>
+                                <li><i class="bi bi-dot"></i>FluentAssertions</li>
+                                <li><i class="bi bi-dot"></i>NBomber</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-dot"></i>Domain-Driven Design</li>
+                                <li><i class="bi bi-dot"></i>SOLID Principles</li>
+                                <li><i class="bi bi-dot"></i>Repository Pattern</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

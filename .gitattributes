@@ -1,63 +1,113 @@
 ###############################################################################
-# Set default behavior to automatically normalize line endings.
+# Default behavior - Set line endings to auto and treat as text
 ###############################################################################
 * text=auto
 
 ###############################################################################
-# Set default behavior for command prompt diff.
-#
-# This is need for earlier builds of msysgit that does not have it on by
-# default for csharp files.
-# Note: This is only used by command line
+# C# and .NET Project Files
 ###############################################################################
-#*.cs     diff=csharp
+*.cs        text diff=csharp eol=lf
+*.csproj    text merge=union
+*.sln       text merge=union
+*.sln.DotSettings text
+*.resx      text
+*.xaml      text
 
 ###############################################################################
-# Set the merge driver for project and solution files
-#
-# Merging from the command prompt will add diff markers to the files if there
-# are conflicts (Merging from VS is not affected by the settings below, in VS
-# the diff markers are never inserted). Diff markers may cause the following 
-# file extensions to fail to load in VS. An alternative would be to treat
-# these files as binary and thus will always conflict and require user
-# intervention with every merge. To do so, just uncomment the entries below
+# PowerShell and Script Files
 ###############################################################################
-#*.sln       merge=binary
-#*.csproj    merge=binary
-#*.vbproj    merge=binary
-#*.vcxproj   merge=binary
-#*.vcproj    merge=binary
-#*.dbproj    merge=binary
-#*.fsproj    merge=binary
-#*.lsproj    merge=binary
-#*.wixproj   merge=binary
-#*.modelproj merge=binary
-#*.sqlproj   merge=binary
-#*.wwaproj   merge=binary
+*.ps1       text eol=lf
+*.ps1xml    text eol=lf
+*.psm1      text eol=lf
+*.psd1      text eol=lf
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+*.sh        text eol=lf
 
 ###############################################################################
-# behavior for image files
-#
-# image files are treated as binary by default.
+# Configuration and Data Files
 ###############################################################################
-#*.jpg   binary
-#*.png   binary
-#*.gif   binary
+*.json      text diff=json eol=lf
+*.jsonc     text diff=json eol=lf
+*.xml       text diff=xml eol=lf
+*.config    text eol=lf
+*.yaml      text eol=lf
+*.yml       text eol=lf
+*.toml      text eol=lf
+*.ini       text eol=lf
+*.csv       text eol=lf
+*.tsv       text eol=lf
 
 ###############################################################################
-# diff behavior for common document formats
-# 
-# Convert binary document formats to text before diffing them. This feature
-# is only available from the command line. Turn it on by uncommenting the 
-# entries below.
+# Documentation Files
 ###############################################################################
-#*.doc   diff=astextplain
-#*.DOC   diff=astextplain
-#*.docx  diff=astextplain
-#*.DOCX  diff=astextplain
-#*.dot   diff=astextplain
-#*.DOT   diff=astextplain
-#*.pdf   diff=astextplain
-#*.PDF   diff=astextplain
-#*.rtf   diff=astextplain
-#*.RTF   diff=astextplain
+*.md        text diff=markdown eol=lf
+*.markdown  text diff=markdown eol=lf
+*.txt       text eol=lf
+*.rst       text eol=lf
+
+###############################################################################
+# Web and CSS Files
+###############################################################################
+*.html      text diff=html eol=lf
+*.htm       text diff=html eol=lf
+*.css       text diff=css eol=lf
+*.scss      text diff=css eol=lf
+*.js        text eol=lf
+*.ts       text eol=lf
+*.tsx       text eol=lf
+
+###############################################################################
+# Git and Repository Files
+###############################################################################
+.gitattributes text
+.gitignore     text eol=lf
+.gitmodules    text eol=lf
+
+###############################################################################
+# Binary Files - Treat as binary
+###############################################################################
+*.bin       binary
+*.exe       binary
+*.dll       binary
+*.so        binary
+*.dylib     binary
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.bmp       binary
+*.svg       binary
+*.woff      binary
+*.woff2     binary
+*.ttf       binary
+*.otf       binary
+*.eot       binary
+*.zip       binary
+*.7z        binary
+*.rar       binary
+*.tar       binary
+*.gz        binary
+*.gzip      binary
+*.pdf       binary
+*.pdb       binary
+*.db        binary
+*.sqlite    binary
+
+###############################################################################
+# Visual Studio and IDE Files
+###############################################################################
+*.sln.user  text
+*.suo       binary
+*.sln.DotSettings.user text
+.vs/        -text -diff
+
+###############################################################################
+# Build Output and Dependencies
+###############################################################################
+bin/        -text -diff
+obj/        -text -diff
+.ncrunch*   -text -diff
+packages/   -text -diff
+node_modules/ -text -diff

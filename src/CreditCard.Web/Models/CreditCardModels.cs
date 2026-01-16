@@ -1,4 +1,4 @@
-namespace CreditCard.Web.Models;
+ï»¿namespace CreditCard.Web.Models;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -24,26 +24,26 @@ public class CreditCardViewModel
 
 public class CreateCreditCardModel
 {
-    [Required(ErrorMessage = "El número de tarjeta es requerido")]
-    [StringLength(19, MinimumLength = 13, ErrorMessage = "El número debe tener entre 13 y 19 dígitos")]
-    [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten dígitos")]
+    [Required(ErrorMessage = "El nNÃºmero de tarjeta es requerido")]
+    [StringLength(19, MinimumLength = 13, ErrorMessage = "El nNÃºmero debe tener entre 13 y 19 ddÃ­gitos")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten ddÃ­gitos")]
     public string CardNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "El nombre del titular es requerido")]
     [MinLength(3, ErrorMessage = "El nombre debe tener al menos 3 caracteres")]
     public string CardHolderName { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "La fecha de expiración es requerida")]
+    [Required(ErrorMessage = "La fecha de expiraciÃ³n es requerida")]
     [RegularExpression(@"^(0[1-9]|1[0-2])\/\d{2}$", ErrorMessage = "Formato: MM/YY")]
     public string ExpirationDate { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "El CVV es requerido")]
-    [StringLength(4, MinimumLength = 3, ErrorMessage = "El CVV debe tener 3 o 4 dígitos")]
-    [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten dígitos")]
+    [StringLength(4, MinimumLength = 3, ErrorMessage = "El CVV debe tener 3 o 4 ddÃ­gitos")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten ddÃ­gitos")]
     public string CVV { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "El límite de crédito es requerido")]
-    [Range(0.01, 999999.99, ErrorMessage = "El límite debe ser mayor a 0")]
+    [Required(ErrorMessage = "El lÃ­mite de crÃ©dito es requerido")]
+    [Range(0.01, 999999.99, ErrorMessage = "El lÃ­mite debe ser mayor a 0")]
     public decimal CreditLimit { get; set; } = 1000m;
 
     [Required(ErrorMessage = "El tipo de tarjeta es requerido")]
@@ -56,8 +56,8 @@ public class UpdateCreditCardModel
     [MinLength(3, ErrorMessage = "El nombre debe tener al menos 3 caracteres")]
     public string CardHolderName { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "El límite de crédito es requerido")]
-    [Range(0.01, 999999.99, ErrorMessage = "El límite debe ser mayor a 0")]
+    [Required(ErrorMessage = "El lÃ­mite de crÃ©dito es requerido")]
+    [Range(0.01, 999999.99, ErrorMessage = "El lÃ­mite debe ser mayor a 0")]
     public decimal CreditLimit { get; set; }
 }
 

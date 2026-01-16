@@ -1,7 +1,7 @@
-namespace CreditCard.Web.Models;
+ï»¿namespace CreditCard.Web.Models;
 
 /// <summary>
-/// Modelo para configuración de prueba de carga
+/// Modelo para configuraciÃ³n de prueba de carga
 /// </summary>
 public class LoadTestConfiguration
 {
@@ -34,7 +34,7 @@ public class LoadTestResultModel
 }
 
 /// <summary>
-/// Métrica por endpoint
+/// MMÃ©trica por endpoint
 /// </summary>
 public class EndpointMetric
 {
@@ -49,7 +49,7 @@ public class EndpointMetric
 }
 
 /// <summary>
-/// Estado de ejecución de prueba
+/// Estado de ejecuciÃ³n de prueba
 /// </summary>
 public class LoadTestStatus
 {
